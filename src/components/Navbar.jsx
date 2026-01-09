@@ -1,4 +1,4 @@
-import { DoorOpenIcon, EditIcon, ImageIcon, MessageCircleIcon, UserIcon,} from 'lucide-react'
+import { DoorOpenIcon, EditIcon, ImageIcon, MessageCircleIcon, Plus, UserIcon, Users2,} from 'lucide-react'
 import React, { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
@@ -6,7 +6,8 @@ const Navbar = () => {
   const [profiledrop, setprofileDrop] = useState(false)
   const Menus = [
     {name:'Chats',link:"/",icon: <MessageCircleIcon className='w-4' />},
-    {name:'Groups',link:"",icon: <ImageIcon className='w-4' />},
+    {name:'Groups',link:"",icon: <Users2 className='w-4' />},
+    {name:'Add', link:"",icon:<Plus className='w-4' />},
     {name:'Account',link:"",icon: <UserIcon className='w-4' />},
   ]
 
@@ -24,7 +25,7 @@ const Navbar = () => {
   return (
     <>
       {/* for mobile view */}
-      <div className="md:hidden w-full absolute left-0 z-50 bottom-10 bg-white border-t-2 border-slate-200">
+      <div className="md:hidden w-full absolute left-0 z-50 bottom-0 bg-white border-t-2 border-slate-200">
         <div className="w-full p-2 flex justify-around">
           {Menus.map((li, i) => (
             <>
@@ -36,8 +37,8 @@ const Navbar = () => {
                 
                 {li.name == "Account" && 
                 <>
-                  <div className={`p-2 border-2 border-slate-200 rounded-xl bg-white flex flex-col gap-3 absolute bottom-5 -right-2 z-50 
-                   origin-bottom-right duration-100 shadow-lg ${profiledrop ? 'scale-100': 'scale-0'}`}>
+                  <div className={`p-2 border-2 border-slate-200 rounded-xl bg-white  flex-col gap-3 absolute bottom-10 -right-2 z-50 
+                   origin-bottom-right duration-100 shadow-lg ${profiledrop ? 'hidden': 'flex'}`}>
                       <h1 className="border-b border-slate-200 py-1">
                         ~AuraNostra
                       </h1>
@@ -70,7 +71,7 @@ const Navbar = () => {
            {Menus.map((li, i) => (
             <>
               <Link to={li.name == "Account" && li.link} className='relative'>
-                <div className={` p-3 py-2 rounded-2xl hover:bg-green-100 duration-200 ${location.pathname == li.link && ' text-green-600 border-b-2 border-green-300 bg-green-100'}`}
+                <div className={` p-3 py-2 rounded-2xl hover:bg-green-100 duration-200 ${location.pathname == li.link && ' text-green-600 border-2 border-green-300'}`}
                 onClick={() => {li.name == 'Account' && setprofileDrop(!profiledrop)}}>
                   {li.icon}
                 </div>

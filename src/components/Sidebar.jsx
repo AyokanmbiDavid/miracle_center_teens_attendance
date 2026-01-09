@@ -2,14 +2,17 @@ import { useEffect, useState } from "react";
 import API from "../api/axios";
 import UserCard from "./UserCard";
 import Navbar from "./Navbar";
+import { Search } from "lucide-react";
 
 const Sidebar = ({ onSelectUser, socket, selectedUserId }) => {
   const [users, setUsers] = useState([
+    {id:1,username:"David"},
   ]);
   const [onlineUsers, setOnlineUsers] = useState([]); // Track online IDs
   const currentUserId = localStorage.getItem("userId");
   const [filtUser, setFiltuser] = useState();
-  const [FiltType, setFilttype] = useState('all')
+  const [FiltType, setFilttype] = useState('all');
+  let TopFilt = [{name:"All", set:"all"},{name:"Unread", set:"unread"},{name:'Favourite', set:'favourite'}];
 
   useEffect(() => {
     // 1. Fetch all users from DB
@@ -41,19 +44,24 @@ const Sidebar = ({ onSelectUser, socket, selectedUserId }) => {
 
       {/* search bar */}
       <div className="w-full flex justify-center my-2 border-b border-slate-200 ">
-        <input type="text"
-        className="w-full p-2 rounded-2xl border-gray-200 border-2 text-sm focus:outline-none mb-2"
+        <div className="w-full flex items-center justify-center mb-2">
+          <input type="text"
+        className="w-full p-2 rounded-l-full border-gray-300 border text-xs focus:outline-none "
         onChange={(e) => setFiltuser(users.filter(d => d.username.toLowerCase().includes(e.target.value.toLowerCase())))}
         placeholder="Search Users"/>
+        <button className="p-2 bg-gray-200 border-2 border-gray-200 text-gray-700 rounded-r-full">
+          <Search size={15} />
+        </button>
+        </div>
       </div>
 
       {/* filter type */}
       <div className="w-full flex my-2">
-        {[{name:"All", set:"all"},{name:"Unread", set:"unread"},].map((filt, i) => (
+        {TopFilt.map((filt, i) => (
           <>
             <div 
             onClick={() => setFilttype(filt.set)}
-            className={`p-1 px-4 text-sm cursor-pointer ${FiltType == filt.set ? 'border-2 border-gray-200 rounded-full  text-green-600' : 'border-2 border-green-50 '}`}>
+            className={`px-2 p-1 text-sm border border-gray-200 ${FiltType == filt.set ? 'bg-gray-200' : ''} ${TopFilt.indexOf(filt) == 0 ? 'rounded-l-full' : TopFilt.indexOf(filt) == TopFilt.length - 1 ? 'rounded-r-full' : ''} '}`}>
               {filt.name}
             </div>
           </>

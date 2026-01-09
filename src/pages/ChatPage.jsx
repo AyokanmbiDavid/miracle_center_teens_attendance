@@ -34,14 +34,14 @@ const ChatPage = () => {
   }, [socket, selectedUser]);
 
   return (
-    <div className="flex flex-col h-screen bg-gray-100 overflow-hidden p-2">
+    <div className="flex flex-col h-screen bg-gray-100 overflow-hidden ">
       
       {/* PROFESSIONAL ADDITION: Connection Status Bar */}
-      {!isConnected && (
+      {/* {!isConnected && (
         <div className="bg-green-500 text-white text-[10px] py-1 text-center font-bold tracking-widest uppercase animate-pulse">
           Connecting to secure server...
         </div>
-      )}
+      )} */}
 
       <div className="flex flex-1 overflow-hidden">
         {/* SIDEBAR: Visible on Desktop, Hidden on Mobile if chat is open */}
