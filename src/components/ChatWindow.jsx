@@ -6,8 +6,6 @@ import { LoadingSmall } from '../components/Exporting.jsx'
 
 const ChatWindow = ({ user, onBack, socket, isTyping }) => {
   const [messages, setMessages] = useState([
-    {id:12213122312,senderId:"69527761f8bf476e998d31fc",receiverId:"2131xqwke3",text:"How do you do"},
-    {id:56444747477,senderId:"2131xqwke307n43545xw4w4x",receiverId:"69527761f8bf476e998d31fc",text:"Am good"},
   ]);
   const [newMessage, setNewMessage] = useState("");
   const [isRecording, setIsRecording] = useState(false);
