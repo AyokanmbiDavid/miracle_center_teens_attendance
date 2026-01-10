@@ -84,7 +84,7 @@ async function submitPass (e) {
     localStorage.setItem("token", data.token);
     localStorage.setItem("userId", data._id);
     setLoading(false);
-    navigate("/"); 
+    navigate("/", {replace: true}); 
     setTimeout(() => {
         navigate('/')
     }, 500)// Go to the Chat Page

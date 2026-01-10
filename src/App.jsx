@@ -3,12 +3,12 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import ChatPage from "./pages/ChatPage";
 import ProfilePage from './pages/EditPage.jsx'
+import AccountPage from "./pages/AccountPage.jsx";
 
 function App() {
   const isAuthenticated = !!localStorage.getItem("token");
 
   return (
-    <Router>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
@@ -22,8 +22,11 @@ function App() {
           path="/edit" 
           element={isAuthenticated ? <ProfilePage /> : <Navigate to="/login" />} 
         />
+        <Route 
+          path="/account" 
+          element={isAuthenticated ? <AccountPage /> : <Navigate to="/login" />} 
+        />
       </Routes>
-    </Router>
   );
 }
 

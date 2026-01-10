@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import API from "../api/axios";
 import UserCard from "./UserCard";
 import Navbar from "./Navbar";
 import { Search } from "lucide-react";
+import { ChatContext } from "./ContextProvider";
 
 const Sidebar = ({ onSelectUser, socket, selectedUserId }) => {
   const [users, setUsers] = useState([
@@ -13,6 +14,7 @@ const Sidebar = ({ onSelectUser, socket, selectedUserId }) => {
   const [filtUser, setFiltuser] = useState();
   const [FiltType, setFilttype] = useState('all');
   let TopFilt = [{name:"All", set:"all"},{name:"Unread", set:"unread"},{name:'Favourite', set:'favourite'}];
+  const {user,selectedUser,setselectedUser} = useContext(ChatContext);
 
   useEffect(() => {
     // 1. Fetch all users from DB
@@ -36,10 +38,10 @@ const Sidebar = ({ onSelectUser, socket, selectedUserId }) => {
 
   return (
     <>
-      <div className="flex relative justify-around bg-gray-100 gap-2">
+      <div className="flex relative justify-around bg-gray-100 ">
         <Navbar/>
 
-    <div className="flex flex-col h-screen bg-white px-2 w-full rounded-2xl border-2 border-gray-200">
+    <div className="flex flex-col h-screen bg-white px-2 w-full border-2 border-gray-200">
       <div className="p-4 py-3 font-bold text-lg text-green-600">Chats</div>
 
       {/* search bar */}
@@ -78,7 +80,7 @@ const Sidebar = ({ onSelectUser, socket, selectedUserId }) => {
           return (
             <div
               key={user._id}
-              onClick={() => onSelectUser(user)}
+              onClick={() => {onSelectUser(user),setselectedUser(user)}}
               className={`flex items-center gap-3 p-2 cursor-pointer  transition ${
                 isSelected ? "bg-blue-50" : "hover:bg-gray-50"
               }`}

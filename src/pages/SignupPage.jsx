@@ -25,7 +25,7 @@ const SignupPage = () => {
     try {
       await API.post("/api/auth/signup", formData);
       setLoading(false);
-      navigate("/login"); // Redirect to login after successful signup
+      navigate("/login",{replace: true}); // Redirect to login after successful signup
     } catch (err) {
       setLoading(false);
       if (err?.response) {

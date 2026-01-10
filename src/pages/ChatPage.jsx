@@ -34,7 +34,7 @@ const ChatPage = () => {
   }, [socket, selectedUser]);
 
   return (
-    <div className="flex flex-col h-screen bg-gray-100 overflow-hidden ">
+    <div className="flex flex-col h-screen bg-gray-50 overflow-hidden ">
       
       {/* PROFESSIONAL ADDITION: Connection Status Bar */}
       {/* {!isConnected && (

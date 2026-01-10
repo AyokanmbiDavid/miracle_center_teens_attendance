@@ -68,7 +68,7 @@ const ProfilePage = () => {
         
         {/* Header with Back Button */}
         <div className="flex items-center gap-4 mb-6">
-          <Link to="/" className="p-2 hover:bg-gray-100 rounded-full transition text-gray-600">
+          <Link to="/account" className="p-2 hover:bg-gray-100 rounded-full transition text-gray-600">
             <ArrowLeft size={20} />
           </Link>
           <h2 className="text-xl font-bold text-green-600">Edit Profile</h2>
