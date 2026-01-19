@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import API from "../api/axios";
 import { LoadingSmall } from "../components/Exporting";
-import { DoorOpen, EyeIcon, LockIcon } from "lucide-react";
+import { CloudUpload, DoorOpen, EyeIcon, Info, LockIcon, ShoppingCart } from "lucide-react";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -12,13 +12,14 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [passType, setpassType] = useState("password");
+  const location = useLocation()
 
-  useEffect(() => {
-    let token = localStorage.getItem("token");
-    if(token) {
-    navigate('/')
-    }
-  },[])
+  // useEffect(() => {
+  //   let token = localStorage.getItem("token");
+  //   if(token) {
+  //   navigate('/')
+  //   }
+  // },[])
 
 
   function handleChangeForm (e,name) {
@@ -101,145 +102,63 @@ async function submitPass (e) {
 }
   return (
    <>
-    <div className="w-full h-screen flex  justify-center items-center relative">
-      <div className="p-2 max-md:w-full max-lg:w-6/10 w-4/10 flex flex-col h-screen justify-between ">
-        <h1 className="w-full py-2 font-semibold space-y-3 text-xl">
-          Stagger
-        </h1>
+    <div className=" w-full h-screen relative flex justify-center items-center">
 
-        {/* body */}
-        <div className="w-full flex flex-col">
-          {error && <>
-          <div className="w-full p-3 border-2 border-red-500 bg-red-50 text-red-700 rounded-2xl mb-2">
-              {error}
-          </div>
-          </>}
-          {/* form */}
-         <form action=""
-         onSubmit={handleSubmit}
-         className="w-full flex flex-col max-md:px-3">
-          {/* Email */}
-           <label htmlFor="" className="text-sm text-slat-700 mb-3">
-            Email...</label>
-            <input type="email" 
-            className="border-2 border-gray-200 rounded-2xl focus:outline-none focus:border-slate-200"
-            placeholder="Email.."
-            onChange={(e) => handleChangeForm(e,'email')}
-            required />
+       {/* main frame */}
+       <div className="w-full lg:w-3/10 px-4">
+        {/* navbar */}
+        <div className="w-full mb-3 flex gap-2 justify-between items-center">
+          {/* sign In */}
+          <Link to={'/login'}
+          className="w-full bg-blue-200/70 p-3 text-center text-blue-700/70 text-xs rounded-l-3xl rounded-md hover:bg-blue-300/50 duration-300 flex items-center gap-3 justify-center">
+          Sign In <DoorOpen/>
+          </Link>
 
-          {/* password */}
-           <label htmlFor="" className="text-sm text-slat-700 mb-3 mt-4">
-            Passsword...</label>
-            <div className="flex justify-between items-center w-full rounded-2xl border-2 border-gray-200">
-            <input type={passType} 
-            className="w-full rounded-l-2xl border-0 outline-none"
-            placeholder="Password..." 
-            onChange={(e) => handleChangeForm(e,'password')}
+          {/* signup */}
+          <Link to={'/signup'}
+          className="w-full p-3 text-center text-blue-700/70 text-xs rounded-r-3xl rounded-md hover:bg-blue-300/50 duration-300 flex items-center justify-center gap-3">
+          Sign Up <CloudUpload/>
+          </Link>
+        </div>
+
+          <h1 className="font-semiibold flex items-center gap-2 text-blue-600/70 mb-3 pb-2 border-b-2 border-slate-300">Login to ShoppingCart <ShoppingCart/></h1>
+
+          <form onSubmit={handleSubmit}
+          className="flex flex-col">
+            <label htmlFor="" className="text-sm mt-3 text-gray-800">Email</label>
+            {/* email */}
+            <input type="email"
+            className="bg-slate-100 border-0 rounded-xl text-xs focus:ring-2 focus:ring-blue-200 mt-2" 
+            placeholder="david@gmail.com"
+            onChange={(e) => setFormData({...formData, email: e.target.value})}
             required/>
-            <span 
-            onClick={() => setpassType(passType == "text" ? 'password' : 'text')}
-            className="p-3 px-4 rounded-r-2xl bg-gray-200">
-            <EyeIcon className="w-5" />
-           </span>
-          </div>
 
-          {/* forgot password */}
-          <h1 
-          data-modal-target="default-modal" data-modal-toggle="default-modal"
-          className="text-end w-full text-red-500 text-sm mt-2 cursor-pointer">
-            forgot password
-          </h1>
+            <label htmlFor="" className="text-sm mt-3 text-gray-800">Password</label>
+            {/* password */}
+            <input type="password"
+            className="bg-slate-100 border-0 rounded-xl text-xs focus:ring-2 focus:ring-blue-200 mt-2" 
+            placeholder="Password..."
+            onChange={(e) => setFormData({...formData, password: e.target.value})}
+            required/>
 
-          {/* sunbmit button */}
-          <button className="flex justify-center items-center py-3 w-full rounded-2xl bg-green-600 text-white shadow-md mt-3 cursor-pointer">
-            {loading ?
-          <LoadingSmall/> :
-          <>
-            Sign In <DoorOpen />
-          </>}
-          </button>
-
-          <h1 className="text-center w-full mt-3">
-            dont have an account? <Link to={'/signup'} className="text-blue-600">Sign Up</Link>
-          </h1>
-         </form>
-        </div>
-
-        {/* bottom */}
-        <div className="w-full py-3">
-            <h1 className="text-center font-semibold text-gray-700">
-              Developed by Dayvid @2026 All right Reserved
-            </h1>
-        </div>
-      </div>
-
-{/* <!-- Main modal-->  */}
-<div id="default-modal" tabindex="-1" aria-hidden="true" className="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div className="relative p-4 w-full max-w-2xl max-h-full">
-        {/* <!-- Modal content-->  */}
-        <div className="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
-            {/* <!-- Modal header-->  */}
-            <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200">
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                    Change Password
-                </h3>
-                <button type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal">
-                    <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                    </svg>
-                    <span className="sr-only">Close modal</span>
-                </button>
+            {/* forgot password */}
+            <div className="flex w-full justify-end">
+              <a 
+              className="text-red-700 p-2 bg-red-200/70 mt-3 rounded-l-full rounded-xl cursor-pointer hover:bg-red-300/50 duration-300 text-xs flex justify-center gap-3 items-center">
+                forgot password <Info size={15}/>
+              </a>
             </div>
-            {/* <!-- Modal body-->  */}
-            {passerror && <>
-              <div className="w-full p-3 border-2 border-red-500 bg-red-50 text-red-700 rounded-2xl mb-2">
-              {passerror}
-          </div>
-            </>}
-            <form
-            onSubmit={submitPass}
-            className="p-4 md:p-5 space-y-4">
-              {/* Email */}
-               <label htmlFor="" className="text-gray-700 mb-2">Email..</label>
-               <input type="email" 
-               className="w-full rounded-2xl border-2 border-gray-200 focus:outline-none focus:ring-1"
-               placeholder="Email" value={formData.email}
-               onChange={(e) => handleChangePass(e,'email')}
-               required />
 
-              {/* Security Question */}
-                <label htmlFor="" className="text-gray-700 mb-2">Security Question..</label>
-               <input type="text" 
-               className="w-full rounded-2xl border-2 border-gray-200 focus:outline-none focus:ring-1"
-               placeholder="Your security question" 
-               onChange={(e) => handleChangePass(e,'security_question')}
-               required />
-
-               {/* New Password */}
-                 <label htmlFor="" className="text-gray-700 mb-2">New Password..</label>
-                <div className="flex justify-between items-center w-full rounded-2xl border-2 border-gray-200">
-                <input type={passType} 
-                className="w-full rounded-l-2xl border-0 outline-none"
-                placeholder="Password..." 
-                onChange={(e) => handleChangePass(e,'password')}
-                required/>
-                <span 
-                onClick={() => setpassType(passType == "text" ? 'password' : 'text')}
-                className="p-3 px-4 rounded-r-2xl bg-gray-200">
-                <EyeIcon className="w-5" />
-              </span>
-          </div>
-              <button className="p-2 px-4 shadow-lg cursor-pointer rounded-xl bg-green-600 text-white">
-                {loading ? 
-                <LoadingSmall/> :
-                "Submit"}
-              </button>
-            </form>
-               
-        </div>
-    </div>
-</div>
-
+            {/* button for submit */}
+            <button 
+            className="mt-4 w-full bg-green-500/90 rounded-xl text-white flex items-center justify-between cursor-pointer hover:shadow-md duration-300">
+                <span className="w-full">Sign In</span>
+                <span className="p-3 bg-green-700/80 rounded-r-xl">
+                  <DoorOpen/>
+                </span>
+            </button>
+          </form>
+       </div>
     </div>
    </>
   );

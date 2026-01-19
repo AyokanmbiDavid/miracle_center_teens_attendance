@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import API from "../api/axios";
 import { LoadingSmall } from "../components/Exporting";
-import { Cloud, EyeIcon, FileIcon } from "lucide-react";
+import { Cloud, CloudUpload, DoorOpen, EyeIcon, FileIcon, ShoppingCart } from "lucide-react";
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({ username: "", email: "", password: "",security_question:"" });
@@ -10,6 +10,7 @@ const SignupPage = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [passType, setpassType] = useState("password");
+  const location = useLocation()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,90 +46,73 @@ const SignupPage = () => {
 
   return (
     <>
-      <div className="w-full flex justify-center items-center">
-        <div className="max-md:w-full p-2 max-lg:w-5/10 w-4/10 h-screen flex flex-col justify-between items-center">
-            <h1 className="w-full py-2 font-semibold space-y-3 text-xl">
-              Stagger
-            </h1>
+    <div className=" w-full relative flex justify-center items-center overflow-y-auto">
 
-            {/* form */}
-             {/* body */}
-        <div className="w-full flex flex-col">
-          {error && <>
-          <div className="w-full p-3 border-2 border-red-500 bg-red-50 text-red-700 rounded-2xl mb-2">
-              {error}
-          </div>
-          </>}
-          {/* form */}
-         <form action=""
-         onSubmit={handleSubmit}
-         className="w-full flex flex-col max-md:px-3">
-           {/* Username */}
-           <label htmlFor="" className="text-sm text-slat-700 mb-3">
-            Username...</label>
-            <input type="text" 
-            className="border-2 border-gray-200 rounded-2xl focus:outline-none focus:border-slate-200 mb-3"
-            placeholder="Username.."
-            onChange={(e) => handleChangeForm(e,'username')}
-            required />
+       {/* main frame */}
+       <div className="w-full lg:w-3/10 px-4 mt-5">
+        {/* navbar */}
+        <div className="w-full mb-3 flex gap-2 justify-between items-center">
+          {/* sign In */}
+          <Link to={'/login'}
+          className="w-full  p-3 text-center text-blue-700/70 text-xs rounded-l-3xl rounded-md hover:bg-blue-300/50 duration-300 flex items-center gap-3 justify-center">
+          Sign In <DoorOpen/>
+          </Link>
 
-          {/* Email */}
-           <label htmlFor="" className="text-sm text-slat-700 mb-3">
-            Email...</label>
-            <input type="email" 
-            className="border-2 border-gray-200 rounded-2xl focus:outline-none focus:border-slate-200"
-            placeholder="Email.."
-            onChange={(e) => handleChangeForm(e,'email')}
-            required />
+          {/* signup */}
+          <Link to={'/signup'}
+          className="w-full p-3 text-center bg-blue-200/70 text-blue-700/70 text-xs rounded-r-3xl rounded-md hover:bg-blue-300/50 duration-300 flex items-center justify-center gap-3">
+          Sign Up <CloudUpload/>
+          </Link>
+        </div>
 
-          {/* password */}
-           <label htmlFor="" className="text-sm text-slat-700 mb-3 mt-4">
-            Passsword...</label>
-            <div className="flex justify-between items-center w-full rounded-2xl border-2 border-gray-200">
-            <input type={passType} 
-            className="w-full rounded-l-2xl border-0 outline-none"
-            placeholder="Password..." 
-            onChange={(e) => handleChangeForm(e,'password')}
+          <h1 className="font-semiibold flex items-center gap-2 text-blue-600/70 pb-3 mb-3 border-b-2 border-slate-300">Sign Up with ShoppingCart <ShoppingCart/></h1>
+
+          <form onSubmit={handleSubmit}
+          className="flex flex-col">
+            <label htmlFor="" className="text-sm mt-3 text-gray-800">Email</label>
+            {/* email */}
+            <input type="email"
+            className="bg-slate-100 border-0 rounded-xl text-sm focus:ring-2 focus:ring-blue-200 mt-2" 
+            placeholder="david@gmail.com"
+            onChange={(e) => setFormData({...formData, email: e.target.value})}
             required/>
-            <span 
-            onClick={() => setpassType(passType == "text" ? 'password' : 'text')}
-            className="p-3 px-4 rounded-r-2xl bg-gray-200">
-            <EyeIcon className="w-5" />
-           </span>
-          </div>
 
-          {/*Sec Question*/}
-           <label htmlFor="" className="text-sm text-slat-700 mt-3 mb-3">
-           Security Question used for reseting password</label>
-            <input type="text" 
-            className="border-2 border-gray-200 rounded-2xl focus:outline-none focus:border-slate-200 mb-3"
-            placeholder="Security Question.."
-            onChange={(e) => handleChangeForm(e,'security_question')}
-            required />
+            <label htmlFor="" className="text-sm mt-3 text-gray-800">Password</label>
+            {/* password */}
+            <input type="password"
+            className="bg-slate-100 border-0 rounded-xl text-sm focus:ring-2 focus:ring-blue-200 mt-2" 
+            placeholder="Password..."
+            onChange={(e) => setFormData({...formData, password: e.target.value})}
+            required/>
 
-          {/* sunbmit button */}
-          <button className="flex justify-center items-center py-3 w-full rounded-2xl bg-green-600 text-white shadow-md mt-3 cursor-pointer">
-            {loading ?
-          <LoadingSmall/> :
-          <>
-            Sign Up <Cloud />
-          </>}
-          </button>
+            <label htmlFor="" className="text-sm mt-3 text-gray-800">Username</label>
+            {/*username*/}
+            <input type="text"
+            className="bg-slate-100 border-0 rounded-xl text-sm focus:ring-2 focus:ring-blue-200 mt-2" 
+            placeholder="user10335"
+            onChange={(e) => setFormData({...formData, username: e.target.value})}
+            required/>
 
-          <h1 className="w-full text-center text-gray-700 mt-3">
-            Already have an Account? <Link to={'/login'} className="text-blue-600">Sign In</Link>
-          </h1>
-         </form>
-        </div>
+            <label htmlFor="" className="text-sm mt-3 text-gray-800">Security Question</label>
+            {/* security question */}
+            <input type="text"
+            className="bg-slate-100 border-0 rounded-xl text-sm focus:ring-2 focus:ring-blue-200 mt-2" 
+            placeholder="what i can remember"
+            onChange={(e) => setFormData({...formData, security_question: e.target.value})}
+            required/>
+            <span className="text-yellow-600 text-xs text-center mt-1">security question will be used to reset password, if you forget it</span>
 
-        {/* bottom */}
-        <div className="w-full py-3">
-            <h1 className="text-center font-semibold text-gray-700">
-              Developed by Dayvid @2026 All right Reserved
-            </h1>
-        </div>
-        </div>
-      </div>
+            {/* button for submit */}
+            <button 
+            className="mt-4 mb-5 w-full bg-green-500/90 rounded-xl text-white flex items-center justify-between cursor-pointer">
+                <span className="w-full">Sign Up</span>
+                <span className="p-3 bg-green-700/80 rounded-r-xl">
+                  <CloudUpload/>
+                </span>
+            </button>
+          </form>
+       </div>
+    </div>
     </>
   );
 };

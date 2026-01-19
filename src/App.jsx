@@ -1,9 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
-import ChatPage from "./pages/ChatPage";
-import ProfilePage from './pages/EditPage.jsx'
-import AccountPage from "./pages/AccountPage.jsx";
+import HomePage from "./pages/HomePage";
 
 function App() {
   const isAuthenticated = !!localStorage.getItem("token");
@@ -16,15 +14,7 @@ function App() {
         {/* Only allow access to Chat if logged in */}
         <Route 
           path="/" 
-          element={isAuthenticated ? <ChatPage /> : <Navigate to="/login" />} 
-        />
-        <Route 
-          path="/edit" 
-          element={isAuthenticated ? <ProfilePage /> : <Navigate to="/login" />} 
-        />
-        <Route 
-          path="/account" 
-          element={isAuthenticated ? <AccountPage /> : <Navigate to="/login" />} 
+          element={isAuthenticated ? <HomePage /> : <Navigate to="/login" />} 
         />
       </Routes>
   );

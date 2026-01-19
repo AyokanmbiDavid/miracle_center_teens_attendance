@@ -1,146 +1,40 @@
-import { useContext, useEffect, useState } from "react";
-import API from "../api/axios";
-import UserCard from "./UserCard";
-import Navbar from "./Navbar";
-import { Search } from "lucide-react";
-import { ChatContext } from "./ContextProvider";
+import React, { useState } from 'react'
 
-const Sidebar = ({ onSelectUser, socket, selectedUserId }) => {
-  const [users, setUsers] = useState([
-    {id:1,username:"David"},
-  ]);
-  const [onlineUsers, setOnlineUsers] = useState([]); // Track online IDs
-  const currentUserId = localStorage.getItem("userId");
-  const [filtUser, setFiltuser] = useState();
-  const [FiltType, setFilttype] = useState('all');
-  let TopFilt = [{name:"All", set:"all"},{name:"Unread", set:"unread"},{name:'Favourite', set:'favourite'}];
-  const {user,selectedUser,setselectedUser} = useContext(ChatContext);
-
-  useEffect(() => {
-    // 1. Fetch all users from DB
-    const fetchUsers = async () => {
-      try {
-        const { data } = await API.get("/api/auth/users");
-        setUsers(data.filter(u => u._id !== currentUserId));
-      } catch (err) { console.error(err); }
-    };
-    fetchUsers();
-
-    // 2. Listen for online status updates from Socket
-    if (socket) {
-      socket.on("getOnlineUsers", (userIds) => {
-        setOnlineUsers(userIds);
-      });
-    }
-
-    return () => socket?.off("getOnlineUsers");
-  }, [socket, currentUserId]);
-
+const Sidebar = () => {
+  const [currentside,setcurrentside] = useState('Appliances')
+  const sides = [
+    {name: 'Appliances',set:""},
+    {name: 'Utensils',set:""},
+    {name: 'Gadgets',set:""},
+    {name: 'Toy',set:""},
+    {name: 'Sport',set:""},
+  ]
   return (
     <>
-      <div className="flex relative justify-around bg-gray-100 ">
-        <Navbar/>
-
-    <div className="flex flex-col h-screen bg-white px-2 w-full border-2 border-gray-200">
-      <div className="p-4 py-3 font-bold text-lg text-green-600">Chats</div>
-
-      {/* search bar */}
-      <div className="w-full flex justify-center my-2 border-b border-slate-200 ">
-        <div className="w-full flex items-center justify-center mb-2">
-          <input type="text"
-        className="w-full p-2 rounded-l-full border-gray-300 border text-xs focus:outline-none "
-        onChange={(e) => setFiltuser(users.filter(d => d.username.toLowerCase().includes(e.target.value.toLowerCase())))}
-        placeholder="Search Users"/>
-        <button className="p-2 bg-gray-200 border-2 border-gray-200 text-gray-700 rounded-r-full">
-          <Search size={15} />
-        </button>
+      <div className="bg-slate-100  w-[250px] border-r-2 border-slate-200 h-screen max-md:w-[170px]">
+        <div className="flex flex-col w-full">
+          {sides.map((side, i) => (
+            <>
+              <div className={`w-full p-2 cursor-pointer hover:bg-white duration-300 ${currentside == side.name && 'bg-white border-r-white border-slate-200 relative'}`} 
+              onClick={() => setcurrentside(side.name)}
+              key={i}>
+                <span className="text-slate-700 text-xs pl-3">
+                  {side.name}
+                </span>
+                
+                {currentside == side.name && 
+                <>
+                  <div className="absolute top-0 left-2 h-full  py-1 flex justify-center items-center">
+                    <span className="h-full rounded-full bg-blue-600 w-1 p-0.5"></span>
+                  </div>
+                </>}
+              </div>
+            </>
+          ))}
         </div>
       </div>
-
-      {/* filter type */}
-      <div className="w-full flex my-2">
-        {TopFilt.map((filt, i) => (
-          <>
-            <div 
-            onClick={() => setFilttype(filt.set)}
-            className={`px-2 p-1 text-sm border border-gray-200 ${FiltType == filt.set ? 'bg-gray-200' : ''} ${TopFilt.indexOf(filt) == 0 ? 'rounded-l-full' : TopFilt.indexOf(filt) == TopFilt.length - 1 ? 'rounded-r-full' : ''} '}`}>
-              {filt.name}
-            </div>
-          </>
-        ))}
-      </div>
-
-      <div className="flex-1 overflow-y-auto">
-        {!filtUser ?
-        <>
-          {users.map((user) => {
-          const isOnline = onlineUsers.includes(user._id);
-          const isSelected = selectedUserId === user._id;
-
-          return (
-            <div
-              key={user._id}
-              onClick={() => {onSelectUser(user),setselectedUser(user)}}
-              className={`flex items-center gap-3 p-2 cursor-pointer  transition ${
-                isSelected ? "bg-blue-50" : "hover:bg-gray-50"
-              }`}
-            >
-              <div className="relative">
-                <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center font-bold text-gray-600">
-                  {user.username.charAt(0).toUpperCase()}
-                </div>
-                {/* Green Dot for Online Status */}
-                {isOnline && (
-                  <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
-                )}
-              </div>
-              <div className="flex-1">
-                <h3 className="font-semibold text-sm">{user.username}</h3>
-                <p className="text-xs text-gray-500">{isOnline ? "Online" : "Offline"}</p>
-              </div>
-            </div>
-          );
-        })}
-        </> :
-        <>
-        {filtUser.length !=0 ?
-        <>
-        {filtUser.map((user) => {
-          const isOnline = onlineUsers.includes(user._id);
-          const isSelected = selectedUserId === user._id;
-
-          return (
-            <div
-              key={user._id}
-              onClick={() => onSelectUser(user)}
-              className={`flex items-center gap-3 p-4 cursor-pointer border-b-2 border-slate-200 transition ${
-                isSelected ? "bg-blue-50" : "hover:bg-gray-50"
-              }`}
-            >
-              <div className="relative">
-                <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center font-bold text-gray-600">
-                  {user.username.charAt(0).toUpperCase()}
-                </div>
-                {/* Green Dot for Online Status */}
-                {isOnline && (
-                  <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
-                )}
-              </div>
-              <div className="flex-1">
-                <h3 className="font-semibold text-sm">{user.username}</h3>
-                <p className="text-xs text-gray-500">{isOnline ? "Online" : "Offline"}</p>
-              </div>
-            </div>
-          );
-        })}
-        </>: 
-        <h1 className="py-3 text-center text-red-600">User not found</h1>}
-        </>}
-      </div>
-    </div>
-      </div>
     </>
-  );
-};
+  )
+}
 
-export default Sidebar;
+export default Sidebar

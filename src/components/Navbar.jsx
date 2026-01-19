@@ -1,63 +1,73 @@
-import { DoorOpenIcon, EditIcon, ImageIcon, MessageCircleIcon, Plus, UserIcon, Users2,} from 'lucide-react'
-import React, { useContext, useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { ChatContext } from './ContextProvider'
+import { Home, Menu, MenuIcon, Search, ShoppingBag, ShoppingCart, Table, User } from 'lucide-react'
+import React, { useContext } from 'react'
+import { ShopContext } from './ContextProvider'
+import { useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const Navbar = () => {
-  const [profiledrop, setprofileDrop] = useState(false)
-  const Menus = [
-    {name:'Chats',link:"/",icon: <MessageCircleIcon className='w-4' />},
-    {name:'Groups',link:"",icon: <Users2 className='w-4' />},
-    {name:'Add', link:"",icon:<Plus className='w-4' />},
-    {name:'Account',link:"/account",icon: <UserIcon className='w-4' />},
-  ]
-  const {user} = useContext(ChatContext);
-
-  const navigate = useNavigate()
-
   const location = useLocation()
-
-  async function Logout () {
-    localStorage.removeItem("token");
-    setTimeout(() => {
-      navigate('/login')
-    }, 500);
-  }
-
+  const navs= [
+    {name:'Home', icon:<Home/>, link:'/'},
+    {name:'Category', icon:<Table/>, link:'/category'},
+    {name:'Cart', icon:<ShoppingBag/>, link:'/cart'},
+  ]
   return (
     <>
-      {/* for mobile view */}
-      <div className="md:hidden w-full absolute left-0 z-50 bottom-0 bg-white border-t-2 border-slate-200">
-        <div className="w-full p-2 flex justify-around">
-          {Menus.map((li, i) => (
+      <div className="w-full p-2 fixed top-0 left-0 border-b-2 border-gray-300/70 flex justify-between px-3 bg-slate-100">
+        {/* name */}
+        <h1 className="text-lg font-semibold text-blue-700/70 flex justify-center items-center">
+        <span className="max-md:hidden"> ShoppingCart </span>
+          <ShoppingCart />
+        </h1>
+
+        {/* input */}
+        <Link to={'/search'} className="relative max-md:hidden">
+          <input type="text"
+          className="p-3 text-xs border-0 rounded-full bg-white w-[300px] focus:ring-1 ring-blue-200"
+          placeholder='Search here..' 
+          autoComplete='name'/>
+
+          <button className="absolute h-full right-0 px-3 cursor-pointer">
+            <Search />
+          </button>
+        </Link>
+
+
+        {/* navigation */}
+        <div className="flex items-cente gap-2">
+           {/* input for mobile */}
+        <Link to={'/search'} className='md:hidden text-slate-800 flex h-full items-center'>
+          <Search/>
+        </Link>
+
+          {navs.map((nav, i) => (
             <>
-              <Link to={li.link} className='relative'>
-                <div className={`p-1 rounded-full border-2 ${location.pathname == li.link ? ' border-gray-200 px-3 text-green-600' : 'border-white'}`}
-                 >
-                  {li.icon}
-                </div>
+              <Link to={nav.link}
+              className={`${location.pathname == nav.link ? 'text-blue-600' : 'text-slate-800/80'} ${nav.name != "Cart" && 'max-md:hidden'} p-2 px-3 rounded-full hover:bg-blue-200/80 duration-300 cursor-pointer relative`} key={i}>
+                {nav.icon}
+
+                {nav.name == 'Cart' && 
+                <> 
+                <span className="absolute p-1.5 top-1 right-2 bg-blue-400 rounded-full ring-2 ring-white"></span>
+                </>}
               </Link>
+
+              
             </>
           ))}
-          
+
+          {/* menu for mobile */}
+          <button className="md:hidden">
+            <MenuIcon />
+          </button>
+
+          {/* user account */}
+          <Link to={'/profile'}
+          className='p-2 rounded-full bg-slate-600 text-white relative max-md:hidden'>
+            <User/>
+            <span className="absolute right-0 bottom-0 p-1.5 bg-red-600 rounded-full ring-2 ring-white"></span>
+          </Link>
         </div>
-        
-      </div>
-
-
-
-      {/* for dektop view */}
-      <div className="max-md:hidden flex flex-col gap-3 p-2 h-screen border-2 bg-white border-gray-200">
-           {Menus.map((li, i) => (
-            <>
-              <Link to={li.link} className='relative'>
-                <div className={` p-3 py-2 rounded-2xl border-2 hover:bg-green-100 duration-200 ${location.pathname == li.link ? ' text-green-600  border-green-300' : 'border-white'}`}
-                >
-                  {li.icon}
-                </div>
-              </Link>
-            </>
-          ))}
       </div>
     </>
   )

@@ -1,34 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { createContext } from 'react'
+import API from '../api/axios';
+import { all_product } from './Exporting';
+import { useLocation } from 'react-router-dom';
 
-export const ChatContext = createContext();
+export const ShopContext = createContext();
 
 const ContextProvider = ({children}) => {
-  const [user, setuser] = useState(JSON.parse(localStorage.getItem("staggerUser")) || {username:"",id:"",email:"",});
-  const [Messages, setMessages] = useState()
-  const [socket, setsocket] = useState(null);
-  const [currentChat, setcurrentChat] = useState(null);
-  const [selectedUser, setselectedUser] = useState()
-
-  useEffect(() => {
-      const fetchMessages = async () => {
-        setLoading(true);
-        try {
-          const { data } = await API.get(`/api/messages/${user._id}`);
-          setMessages(data);
-        } catch (err) {
-          console.error("Error fetching messages:", err);
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchMessages();
-    }, []);
+  
 
   return (
-  <ChatContext.Provider value={{user,socket,setsocket,currentChat,setcurrentChat,Messages,selectedUser,setselectedUser}} >
+  <ShopContext.Provider value={{all_product}}>
     {children}
-    </ChatContext.Provider>
+    </ShopContext.Provider>
   )
 }
 
