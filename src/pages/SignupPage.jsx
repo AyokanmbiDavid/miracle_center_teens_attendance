@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import API from "../api/axios";
 import { LoadingSmall } from "../components/Exporting";
-import { Cloud, CloudUpload, DoorOpen, EyeIcon, FileIcon, ShoppingCart } from "lucide-react";
+import { Cloud, CloudUpload, DoorOpen, EyeClosed, EyeIcon, FileIcon, ShoppingCart } from "lucide-react";
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({ username: "", email: "", password: "",security_question:"" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [passType, setpassType] = useState("password");
+  const [passtype, setpasstype] = useState("password");
   const location = useLocation()
 
   const handleSubmit = async (e) => {
@@ -46,7 +46,7 @@ const SignupPage = () => {
 
   return (
     <>
-    <div className=" w-full relative flex justify-center items-center overflow-y-auto">
+    <div className=" w-full min-h-screen relative flex justify-center items-center overflow-y-auto">
 
        {/* main frame */}
        <div className="w-full lg:w-3/10 px-4 mt-5">
@@ -72,23 +72,30 @@ const SignupPage = () => {
             <label htmlFor="" className="text-sm mt-3 text-gray-800">Email</label>
             {/* email */}
             <input type="email"
-            className="bg-slate-100 border-0 rounded-xl text-sm focus:ring-2 focus:ring-blue-200 mt-2" 
+            className="bg-slate-100 border-0 py-4 rounded-xl text-sm focus:ring-2 focus:ring-blue-200 mt-2" 
             placeholder="david@gmail.com"
             onChange={(e) => setFormData({...formData, email: e.target.value})}
             required/>
 
             <label htmlFor="" className="text-sm mt-3 text-gray-800">Password</label>
             {/* password */}
-            <input type="password"
-            className="bg-slate-100 border-0 rounded-xl text-sm focus:ring-2 focus:ring-blue-200 mt-2" 
+            <div className="w-full relative">
+              <input type={passtype}
+            className="w-full h-full py-4 bg-slate-100 border-0 rounded-xl text-xs focus:ring-2 focus:ring-blue-200 mt-2" 
             placeholder="Password..."
             onChange={(e) => setFormData({...formData, password: e.target.value})}
             required/>
+            <button type="button"
+            className="absolute right-5 top-1 h-full"
+            onClick={() => setpasstype(passtype == 'password' ? 'text' : 'password')}>
+              {passtype == "password" ? <EyeClosed size={15}/> : <EyeIcon size={15}/>}
+            </button>
+            </div>
 
             <label htmlFor="" className="text-sm mt-3 text-gray-800">Username</label>
             {/*username*/}
             <input type="text"
-            className="bg-slate-100 border-0 rounded-xl text-sm focus:ring-2 focus:ring-blue-200 mt-2" 
+            className="bg-slate-100 border-0 py-4 rounded-xl text-sm focus:ring-2 focus:ring-blue-200 mt-2" 
             placeholder="user10335"
             onChange={(e) => setFormData({...formData, username: e.target.value})}
             required/>
@@ -96,7 +103,7 @@ const SignupPage = () => {
             <label htmlFor="" className="text-sm mt-3 text-gray-800">Security Question</label>
             {/* security question */}
             <input type="text"
-            className="bg-slate-100 border-0 rounded-xl text-sm focus:ring-2 focus:ring-blue-200 mt-2" 
+            className="bg-slate-100 border-0 py-4 rounded-xl text-sm focus:ring-2 focus:ring-blue-200 mt-2" 
             placeholder="what i can remember"
             onChange={(e) => setFormData({...formData, security_question: e.target.value})}
             required/>
@@ -104,10 +111,10 @@ const SignupPage = () => {
 
             {/* button for submit */}
             <button 
-            className="mt-4 mb-5 w-full bg-green-500/90 rounded-xl text-white flex items-center justify-between cursor-pointer">
-                <span className="w-full">Sign Up</span>
-                <span className="p-3 bg-green-700/80 rounded-r-xl">
-                  <CloudUpload/>
+            className="mt-4 mb-5 w-full rounded-xl text-white flex gap-1 items-center justify-between  cursor-pointer">
+                <span className="w-full text-xs bg-green-500 p-3 rounded-l-2xl rounded-md font-semibold hover:shadow-md duration-300">Sign Up</span>
+                <span className="p-3 bg-green-700/80 rounded-r-xl rounded-md hover:shadow-md duration-300">
+                  <CloudUpload size={16}/>
                 </span>
             </button>
           </form>

@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import HomePage from "./pages/HomePage";
+import SearchItem from "./pages/SearchItem";
 
 function App() {
   const isAuthenticated = !!localStorage.getItem("token");
@@ -12,9 +13,15 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         
         {/* Only allow access to Chat if logged in */}
+        {/* home page */}
         <Route 
           path="/" 
           element={isAuthenticated ? <HomePage /> : <Navigate to="/login" />} 
+        />
+        {/* search page */}
+        <Route 
+          path="/search" 
+          element={isAuthenticated ? <SearchItem /> : <Navigate to="/login" />} 
         />
       </Routes>
   );

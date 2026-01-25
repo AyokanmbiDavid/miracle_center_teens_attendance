@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import API from "../api/axios";
 import { LoadingSmall } from "../components/Exporting";
-import { CloudUpload, DoorOpen, EyeIcon, Info, LockIcon, ShoppingCart } from "lucide-react";
+import { CloudUpload, DoorOpen, EyeClosed, EyeIcon, Info, LockIcon, ShoppingCart } from "lucide-react";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -11,8 +11,8 @@ const LoginPage = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [passType, setpassType] = useState("password");
-  const location = useLocation()
+  const location = useLocation();
+  const [passtype, setpasstype] = useState('password');
 
   // useEffect(() => {
   //   let token = localStorage.getItem("token");
@@ -21,17 +21,6 @@ const LoginPage = () => {
   //   }
   // },[])
 
-
-  function handleChangeForm (e,name) {
-    setFormData({...formData,
-      [name]:e.target.value
-    })
-  }
-   function handleChangePass (e,name) {
-    setPassform({...formData,
-      [name]:e.target.value
-    })
-  }
  const handleSubmit = async (e) => {
   e.preventDefault(); // Moved to the top for better practice
   
@@ -128,33 +117,40 @@ async function submitPass (e) {
             <label htmlFor="" className="text-sm mt-3 text-gray-800">Email</label>
             {/* email */}
             <input type="email"
-            className="bg-slate-100 border-0 rounded-xl text-xs focus:ring-2 focus:ring-blue-200 mt-2" 
+            className="bg-slate-100 border-0 py-4 rounded-xl text-xs focus:ring-2 focus:ring-blue-200 mt-2" 
             placeholder="david@gmail.com"
             onChange={(e) => setFormData({...formData, email: e.target.value})}
             required/>
 
             <label htmlFor="" className="text-sm mt-3 text-gray-800">Password</label>
             {/* password */}
-            <input type="password"
-            className="bg-slate-100 border-0 rounded-xl text-xs focus:ring-2 focus:ring-blue-200 mt-2" 
+            <div className="w-full relative">
+            <input type={passtype}
+            className="w-full h-full bg-slate-100 border-0 py-4 rounded-xl text-xs focus:ring-2 focus:ring-blue-200 mt-2" 
             placeholder="Password..."
             onChange={(e) => setFormData({...formData, password: e.target.value})}
             required/>
-
+            <button type="button"
+            className="absolute right-5 top-1 h-full"
+            onClick={() => setpasstype(passtype == 'password' ? 'text' : 'password')}>
+              {passtype == "password" ? <EyeClosed size={15}/> : <EyeIcon size={15}/>}
+            </button>
+            </div>
+           
             {/* forgot password */}
             <div className="flex w-full justify-end">
               <a 
-              className="text-red-700 p-2 bg-red-200/70 mt-3 rounded-l-full rounded-xl cursor-pointer hover:bg-red-300/50 duration-300 text-xs flex justify-center gap-3 items-center">
+              className="flex items-center gap-2 text-xs mt-2 text-red-600">
                 forgot password <Info size={15}/>
               </a>
             </div>
 
             {/* button for submit */}
             <button 
-            className="mt-4 w-full bg-green-500/90 rounded-xl text-white flex items-center justify-between cursor-pointer hover:shadow-md duration-300">
-                <span className="w-full">Sign In</span>
-                <span className="p-3 bg-green-700/80 rounded-r-xl">
-                  <DoorOpen/>
+            className="mt-4 w-full rounded-xl text-white flex items-center gap-1 justify-between cursor-pointer duration-300">
+                <span className="w-full bg-green-500 text-xs rounded-l-2xl rounded-md p-3 font-semibold hover:shadow-md duration-300">Sign In</span>
+                <span className="p-3 bg-green-700/80 rounded-r-2xl rounded-md hover:shadow-md duration-300">
+                  <DoorOpen size={16}/>
                 </span>
             </button>
           </form>

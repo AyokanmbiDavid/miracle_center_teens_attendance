@@ -11,7 +11,7 @@ const Sidebar = () => {
   ]
   return (
     <>
-      <div className="bg-slate-100  w-[250px] border-r-2 border-slate-200 h-screen max-md:w-[170px]">
+      <div className="max-md:hidden bg-slate-100 sticky top-20  w-[250px] border-r-2 border-slate-200 max-md:w-[170px]">
         <div className="flex flex-col w-full">
           {sides.map((side, i) => (
             <>

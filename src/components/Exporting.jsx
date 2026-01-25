@@ -51,5 +51,11 @@ export function LoadingBig () {
 }
 
 export const all_product = [
-
+  {
+    title: 'Bag',
+    price: 10,
+    category: 'accesories',
+    colors: ['black','red'],
+    description: 'fancy multipurpose bag for daily outing'
+  }
 ];

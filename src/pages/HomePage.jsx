@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 import Sidebar from '../components/Sidebar'
+import SwiperComp from '../components/SwiperComp'
 
 const HomePage = () => {
   return (
@@ -8,8 +9,8 @@ const HomePage = () => {
     <div className="w-full">
       <Navbar/>
       
-      <div className="flex w-full mt-15 ">
-        <Sidebar/>
+      <div className="mt-12 overflow-y-auto w-full">
+      <SwiperComp/>
       </div>
     </div>
     
