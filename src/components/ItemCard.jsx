@@ -37,7 +37,7 @@ export const CartCard = ({id,src,title,price,desc,color}) => {
               {/* minus */}
               <button className="p-0.5 px-2 rounded-md rounded-l-xl text-xs bg-red-600 text-white">-</button>
               {/* plus */}
-               <button className="p-0.5 px-2 rounded-md rounded-r-xl text-xs rounded-r-full bg-blue-600 text-white">+</button>
+               <button className="p-0.5 px-2 rounded-md rounded-r-xl text-xs  bg-blue-600 text-white">+</button>
             </div>
 
             {/* delete */}
