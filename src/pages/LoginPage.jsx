@@ -1,18 +1,21 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import API from "../api/axios";
 import { LoadingSmall } from "../components/Exporting";
 import { CloudUpload, DoorOpen, EyeClosed, EyeIcon, Info, LockIcon, ShoppingCart } from "lucide-react";
+import { ShopContext } from "../components/ContextProvider";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [passform, setPassform] = useState({email:"", security_question:"",password:""});
   const [passerror, setPasserror] = useState("");
-  const [error, setError] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   const [passtype, setpasstype] = useState('password');
+
+  // passing functions from the context
+  const {cancelErr,notify} = useContext(ShopContext)
 
   // useEffect(() => {
   //   let token = localStorage.getItem("token");
@@ -21,37 +24,41 @@ const LoginPage = () => {
   //   }
   // },[])
 
+  async function sendNotify (type,message) {
+    notify(type,message);
+
+    setTimeout(() => {
+      cancelErr()
+    }, 3000);
+  }
+
  const handleSubmit = async (e) => {
   e.preventDefault(); // Moved to the top for better practice
   
   // PASSWORD LENGTH CHECK
   if (formData.password.length < 6) {
-    setError("Password must be at least 6 characters long");
+    sendNotify("failure","password must be 6 digit long")
     setTimeout(() => { setError(""); }, 3000);
     return; // This stops the form from submitting
   }
 
   setLoading(true);
   try {
-    const { data } = await API.post("/api/auth/login", formData);
-    console.log(data._id);
-    // SAVE DATA TO LOCAL STORAGE
-    localStorage.setItem("token", data.token);
-    localStorage.setItem("userId", data._id);
-    setLoading(false);
-    navigate("/"); 
-    setTimeout(() => {
+    await API.post("/api/auth/login", formData).then(data => {
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("userId", data._id);
+      sendNotify("success","login successful")
+      setTimeout(() => {
         navigate('/')
-    }, 500)// Go to the Chat Page
+      }, 1000)
+    })
   } catch (err) {
     setLoading(false);
     if (err?.response?.message) {
       setError("Invalid credentials");
     } else {
-      console.log(err);
-      setError(err?.message);
+      sendNotify("failure","NetworkError")
     }        
-    setTimeout(() => { setError(""); }, 3000);
   }
 };
 
@@ -99,13 +106,13 @@ async function submitPass (e) {
         <div className="w-full mb-3 flex gap-2 justify-between items-center">
           {/* sign In */}
           <Link to={'/login'}
-          className="w-full bg-blue-200/70 p-3 text-center text-blue-700/70 text-xs rounded-l-3xl rounded-md hover:bg-blue-300/50 duration-300 flex items-center gap-3 justify-center">
+          className="w-full bg-green-200/70 p-3 text-center text-green-700/70 text-xs rounded-l-3xl rounded-md hover:bg-green-300/50 duration-300 flex items-center gap-3 justify-center">
           Sign In <DoorOpen/>
           </Link>
 
           {/* signup */}
           <Link to={'/signup'}
-          className="w-full p-3 text-center text-blue-700/70 text-xs rounded-r-3xl rounded-md hover:bg-blue-300/50 duration-300 flex items-center justify-center gap-3">
+          className="w-full p-3 text-center text-green-700/70 text-xs rounded-r-3xl rounded-md hover:bg-green-300/50 duration-300 flex items-center justify-center gap-3">
           Sign Up <CloudUpload/>
           </Link>
         </div>
@@ -148,7 +155,9 @@ async function submitPass (e) {
             {/* button for submit */}
             <button 
             className="mt-4 w-full rounded-xl text-white flex items-center gap-1 justify-between cursor-pointer duration-300">
-                <span className="w-full bg-green-500 text-xs rounded-l-2xl rounded-md p-3 font-semibold hover:shadow-md duration-300">Sign In</span>
+                <span className="w-full bg-green-500 text-xs rounded-l-2xl flex justify-center items-center rounded-md p-3 font-semibold hover:shadow-md duration-300">
+                  {loading ? <LoadingSmall/> : 'Sign In'}
+                </span>
                 <span className="p-3 bg-green-700/80 rounded-r-2xl rounded-md hover:shadow-md duration-300">
                   <DoorOpen size={16}/>
                 </span>

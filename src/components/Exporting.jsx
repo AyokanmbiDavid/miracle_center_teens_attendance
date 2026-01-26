@@ -57,5 +57,33 @@ export const all_product = [
     category: 'accesories',
     colors: ['black','red'],
     description: 'fancy multipurpose bag for daily outing'
-  }
+  },
+  {
+    title: 'School Bag',
+    price: 10,
+    category: 'accesories',
+    colors: ['black','red'],
+    description: 'suitabe and comfortable for students'
+  },
+  {
+    title: 'Shoe',
+    price: 10,
+    category: 'accesories',
+    colors: ['black','red'],
+    description: 'fancy multipurpose bag for daily outing'
+  },
+  {
+    title: 'Hat',
+    price: 10,
+    category: 'accesories',
+    colors: ['black','red'],
+    description: 'fancy multipurpose bag for daily outing'
+  },
+  {
+    title: 'Ear Bud',
+    price: 10,
+    category: 'gadgets',
+    colors: ['black','red'],
+    description: 'fancy multipurpose bag for daily outing'
+  },
 ];

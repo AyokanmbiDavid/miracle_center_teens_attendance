@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import API from "../api/axios";
 import { LoadingSmall } from "../components/Exporting";
 import { Cloud, CloudUpload, DoorOpen, EyeClosed, EyeIcon, FileIcon, ShoppingCart } from "lucide-react";
+import { ShopContext } from "../components/ContextProvider";
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({ username: "", email: "", password: "",security_question:"" });
@@ -12,29 +13,56 @@ const SignupPage = () => {
   const [passtype, setpasstype] = useState("password");
   const location = useLocation()
 
+  // passing values from context
+  const {notify,cancelErr} = useContext(ShopContext);
+  
+  async function sendNotify (type,message) {
+    notify(type,message);
+
+    setTimeout(() => {
+      cancelErr()
+    }, 3000);
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // PASSWORD LENGTH CHECK
     if (formData.password.length < 6) {
-      setError("Password must be at least 6 characters long");
+      sendNotify("failure","password must be 6 characters long")
       setTimeout(() => { setError(""); }, 3000);
       return; // Stop form submission
     }
 
     setLoading(true);
     try {
-      await API.post("/api/auth/signup", formData);
+      await API.post("/api/auth/signup", formData).then(data => {
+        // if i get a response
+        if (data._id) {
+          sendNotify("success","user created succesfully")
+        } 
+
+        setTimeout(() => {
+          API.post("/api/auth/login", {email:formData.email, password:formData.password}).then(data => {
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("userId", data._id);
+          sendNotify("success","login successful")
+          setTimeout(() => {
+            navigate('/')
+          }, 1000)
+          })
+        }, 2000);
+      })
       setLoading(false);
-      navigate("/login",{replace: true}); // Redirect to login after successful signup
+       
+      
     } catch (err) {
       setLoading(false);
       if (err?.response) {
-        setError('Email registered or invalid credentials');
+        sendNotify("failure","")
       } else {
-        setError("Network Error");
+        sendNotify("failure","Network Error")
       }        
-      setTimeout(() => { setError(""); }, 3000);
     }
   };
 
@@ -54,18 +82,18 @@ const SignupPage = () => {
         <div className="w-full mb-3 flex gap-2 justify-between items-center">
           {/* sign In */}
           <Link to={'/login'}
-          className="w-full  p-3 text-center text-blue-700/70 text-xs rounded-l-3xl rounded-md hover:bg-blue-300/50 duration-300 flex items-center gap-3 justify-center">
+          className="w-full  p-3 text-center text-green-700/70 text-xs rounded-l-3xl rounded-md hover:bg-green-300/50 duration-300 flex items-center gap-3 justify-center">
           Sign In <DoorOpen/>
           </Link>
 
           {/* signup */}
           <Link to={'/signup'}
-          className="w-full p-3 text-center bg-blue-200/70 text-blue-700/70 text-xs rounded-r-3xl rounded-md hover:bg-blue-300/50 duration-300 flex items-center justify-center gap-3">
+          className="w-full p-3 text-center bg-green-200/70 text-green-700/70 text-xs rounded-r-3xl rounded-md hover:bg-green-300/50 duration-300 flex items-center justify-center gap-3">
           Sign Up <CloudUpload/>
           </Link>
         </div>
 
-          <h1 className="font-semiibold flex items-center gap-2 text-blue-600/70 pb-3 mb-3 border-b-2 border-slate-300">Sign Up with ShoppingCart <ShoppingCart/></h1>
+          <h1 className="font-semiibold flex items-center gap-2 text-green-800 pb-3 mb-3 border-b-2 border-slate-300">Sign Up with ShoppingCart <ShoppingCart/></h1>
 
           <form onSubmit={handleSubmit}
           className="flex flex-col">
@@ -112,7 +140,9 @@ const SignupPage = () => {
             {/* button for submit */}
             <button 
             className="mt-4 mb-5 w-full rounded-xl text-white flex gap-1 items-center justify-between  cursor-pointer">
-                <span className="w-full text-xs bg-green-500 p-3 rounded-l-2xl rounded-md font-semibold hover:shadow-md duration-300">Sign Up</span>
+                <span className="w-full text-xs bg-green-500 p-3 rounded-l-2xl flex justify-center items-center rounded-md font-semibold hover:shadow-md duration-300">
+                  {loading ? <LoadingSmall/> : 'Sign Up'}
+                </span>
                 <span className="p-3 bg-green-700/80 rounded-r-xl rounded-md hover:shadow-md duration-300">
                   <CloudUpload size={16}/>
                 </span>

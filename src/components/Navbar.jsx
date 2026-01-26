@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 
 const Navbar = () => {
   const location = useLocation()
-  const {filtertype,setfiltertype} = useContext(ShopContext)
+  const {filtertype,setfiltertype,filtsimilar} = useContext(ShopContext)
   const navs= [
     {name:'Home', icon:<Home size={17}/>, link:'/'},
     {name:'Category', icon:<Table size={17}/>, link:'/category'},
@@ -19,10 +19,10 @@ const Navbar = () => {
   // }, 2000)
   return (
     <>
-      <div className="w-full p-2 fixed z-50 top-0 left-0 border-b-2 border-gray-300/70 flex justify-between px-3 bg-slate-100">
+      <div className="w-full p-2 fixed z-30 top-0 left-0 border-b-2 border-gray-300/70 flex justify-between px-3 bg-slate-100">
         {/* name */}
         <h1 className="text-lg font-semibold text-blue-700/70 flex justify-center items-center">
-        <span className="max-md:hidden"> ShoppingCart </span>
+        <Link to={'/'} className="max-md:hidden"> ShoppingCart </Link>
           <ShoppingCart />
         </h1>
 
@@ -32,7 +32,7 @@ const Navbar = () => {
           className="p-2 text-xs border-0 rounded-full bg-white w-[300px] focus:ring-1 ring-blue-200"
           placeholder='Search here..' 
           autoComplete='name'
-          onChange={(e) => setfiltertype({...filtertype, searched: e.target.value})}/>
+          onChange={(e) => filtsimilar(e.target.value)}/>
 
           <button className="absolute h-full right-0 px-3 cursor-pointer">
             <Search size={15}/>
