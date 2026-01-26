@@ -49,6 +49,22 @@ export function LoadingBig () {
       </div>
   )
 }
+export const cart_items = [
+   {
+    title: 'Bag',
+    price: 10,
+    category: 'accesories',
+    color: "black",
+    description: 'fancy multipurpose bag for daily outing'
+  },
+  {
+    title: 'School Bag',
+    price: 10,
+    category: 'accesories',
+    color: "blue",
+    description: 'suitabe and comfortable for students'
+  },
+]
 
 export const all_product = [
   {

@@ -8,6 +8,7 @@ import { useContext } from "react";
 import { ShopContext } from "./components/ContextProvider";
 import { X } from "lucide-react";
 import {motion} from "framer-motion"
+import Cart from "./pages/Cart";
 
 function App() {
   const isAuthenticated = !!localStorage.getItem("token");
@@ -55,9 +56,20 @@ function App() {
               path="/search" 
               element={isAuthenticated ? <SearchItem /> : <Navigate to="/login" />} 
             />
+            {/* profile page */}
              <Route 
               path="/profile" 
               element={isAuthenticated ? <Profile/> : <Navigate to="/login" />} 
+            />
+            {/* profile */}
+             <Route 
+              path="/profile" 
+              element={isAuthenticated ? <Profile/> : <Navigate to="/login" />} 
+            />
+            {/* cart */}
+             <Route 
+              path="/cart" 
+              element={isAuthenticated ? <Cart/> : <Navigate to="/login" />} 
             />
           </Routes>
         </div>

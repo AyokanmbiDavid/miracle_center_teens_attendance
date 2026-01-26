@@ -23,12 +23,12 @@ const Profile = () => {
           
           <div className="flex mt-3 px-4 gap-3 items-center justify-start pb-4 border-b border-slate-300">
             {/* Edit profile */}
-            <button className="relative cursor-pointer text-xs max-md:w-full p-2 rounded-l-full rounded-md flex items-center justify-center border border-purple-300 text-purple-700 hover:scale-[1.1] duration-300">
+            <button className="relative cursor-pointer text-xs max-md:w-full p-2 rounded-md rounded-l-2xl flex items-center justify-center border border-purple-300 text-purple-700 hover:scale-[1.1] duration-300">
               Edit Account <Pen className='absolute -bottom-2 right-1/2 bg-white ' size={15} />
             </button>
 
             {/* logout */}
-             <button className="relative cursor-pointer text-xs max-md:w-full p-2 rounded-r-full rounded-xl border border-red-300 text-white bg-red-500 hover:scale-[1.1] duration-300">
+             <button className="relative cursor-pointer text-xs max-md:w-full p-2  rounded-md rounded-r-2xl  border border-red-300 text-white bg-red-500 hover:scale-[1.1] duration-300">
               Log out
                <DoorOpen className='absolute -bottom-2 right-1/2 text-red-900 bg-white rounded-full' size={15} />
             </button>
