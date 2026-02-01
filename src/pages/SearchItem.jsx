@@ -5,10 +5,7 @@ import { ShopContext } from '../components/ContextProvider'
 import { ItemCard } from '../components/ItemCard'
 
 const SearchItem = () => {
-  const { setfiltertype,similaritem,filtereditem,filtsimilar,selSearch} = useContext(ShopContext);
-
-  let searchval;
-  
+  const { confirmsearch,filtertype,setfiltertype,filtereditem,selSearch,all_product} = useContext(ShopContext);
 
   return (
     <>
@@ -21,8 +18,7 @@ const SearchItem = () => {
           {/* input */}
           <div className="w-full relative">
             <input type="text" 
-            onChange={(e) => {filtsimilar(e.target.value); searchval = e.target.value}}
-            onClick={(e) => filtsimilar(e.target.value)}
+            onChange={(e) => selSearch(e.target.value)}
             className='w-full p-2 text-xs rounded-l-xl rounded-md focus:ring-2 focus:ring-blue-200 bg-slate-100 border-0 '
             placeholder='Search here..'/>
             <Search size={15}
@@ -35,32 +31,25 @@ const SearchItem = () => {
           </button>
         </div>
 
-       {similaritem.length != 0 && 
-       <>
-        {/* search result */}
-        <div className="w-full h-screen  bg-green-100 flex flex-col overflow-x-auto">
-          {similaritem.map((item, i) => (
-            <>
-              <div 
-              onClick={() => selSearch(item.title)}
-              className="w-full border-b border-green-200 p-2 flex justify-between items-center">
-                  {item.title}
-                  <Hand size={15} className='text-purple-700' />
-              </div>
-            </>
-          ))}
-        </div>
-       </>}
-
        {/* fileted cards result */}
-       {filtereditem.length != 0 && 
+       {filtereditem.length != 0 ? 
        (
         <div className="grid max-sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
           {filtereditem.map((item, i) => (
           <ItemCard title={item.title} price={item.price} desc={item.description} />
         ))}
         </div>
-       )}
+       ) : filtertype.confirmSearch ? <>
+        <div className="grid max-sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+        {all_product.map((item, ue) => <ItemCard title={item.title} price={item.price} desc={item.description} />)}
+        </div>
+        </> : filtereditem.length == 0 && confirmsearch != "" ? 
+        <>
+          <h1 className="text-red-500 text-center my-4">
+            No Products found
+          </h1>
+        </> :  
+        <></>}
       </div>
       
     </div>

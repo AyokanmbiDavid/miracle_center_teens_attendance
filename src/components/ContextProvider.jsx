@@ -8,12 +8,18 @@ export const ShopContext = createContext();
 
 const ContextProvider = ({children}) => {
   const [userdata, setuserdata] = useState(JSON.parse(localStorage.getItem("staggerUser")))
+  const [selcategory,setselcategory] = useState('')
   // for notification
   const [err, seterr] = useState();
 
   // cancel notification 
   async function cancelErr () {
     seterr();
+  }
+
+  // select category
+  async function selCat(val) {
+    setselcategory(prev => prev == val ? '' : val)
   }
 
   // set notification
@@ -26,33 +32,26 @@ const ContextProvider = ({children}) => {
     confirmsearch:'',
   });
   const [filtereditem, setfiltereditem] = useState([]);
-  const [similaritem, setsimilaritem] = useState([])
 
 
-  // filter simliar name 
-  async function filtsimilar (val) {
-     let filtersimilar = all_product.filter(item => val &&
-      item.title.toLowerCase().includes(val.toLowerCase()));
-    setsimilaritem(filtersimilar);
+  useEffect(() => {
+    console.log(filtereditem);
     
-  }
-   
+  }, [])
   
   // filter searched items
   async function selSearch (val) {
-    setfiltertype({...filtertype, confirmsearch: val})
     setfiltereditem([])
-    const matchfiltered = all_product.filter(item => filtertype.confirmsearch &&
+    setfiltertype({...filtertype, confirmsearch: val})
+      setfiltereditem(all_product.filter(item => val  &&
       item.title.toLowerCase().includes(val.toLowerCase())
-        )
-      setsimilaritem([])
-      setfiltereditem(matchfiltered)
+        ))
   }
     
     
 
   return (
-  <ShopContext.Provider value={{all_product, filtertype, setfiltertype, filtereditem, similaritem,err,cancelErr,notify,userdata,filtsimilar,selSearch,cart_items}}>
+  <ShopContext.Provider value={{all_product, filtertype, setfiltertype, filtereditem,err,cancelErr,notify,userdata,selSearch,cart_items,selcategory,selCat}}>
     {children}
     </ShopContext.Provider>
   )

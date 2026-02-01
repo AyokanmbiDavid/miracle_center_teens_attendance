@@ -74,6 +74,20 @@ export const all_product = [
     colors: ['black','red'],
     description: 'fancy multipurpose bag for daily outing'
   },
+    {
+    title: 'Samsung 21 Ultra',
+    price: 10,
+    category: 'gadgets',
+    colors: ['black','red'],
+    description: 'fancy multipurpose bag for daily outing'
+  },
+    {
+    title: 'Eletric Iron',
+    price: 10,
+    category: 'appliances',
+    colors: ['black','red'],
+    description: 'fancy multipurpose bag for daily outing'
+  },
   {
     title: 'School Bag',
     price: 10,

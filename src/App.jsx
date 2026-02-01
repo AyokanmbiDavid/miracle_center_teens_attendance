@@ -9,6 +9,7 @@ import { ShopContext } from "./components/ContextProvider";
 import { X } from "lucide-react";
 import {motion} from "framer-motion"
 import Cart from "./pages/Cart";
+import Category from "./pages/Category";
 
 function App() {
   const isAuthenticated = !!localStorage.getItem("token");
@@ -70,6 +71,11 @@ function App() {
              <Route 
               path="/cart" 
               element={isAuthenticated ? <Cart/> : <Navigate to="/login" />} 
+            />
+            {/* category page */}
+             <Route 
+              path="/category" 
+              element={isAuthenticated ? <Category/> : <Navigate to="/login" />} 
             />
           </Routes>
         </div>

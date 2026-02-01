@@ -8,9 +8,9 @@ const Navbar = () => {
   const location = useLocation()
   const {filtertype,setfiltertype,filtsimilar} = useContext(ShopContext)
   const navs= [
-    {name:'Home', icon:<Home size={17}/>, link:'/'},
-    {name:'Category', icon:<Table size={17}/>, link:'/category'},
-    {name:'Cart', icon:<ShoppingBag size={17}/>, link:'/cart'},
+    {name:'Home', icon:<Home size={20}/>, link:'/'},
+    {name:'Category', icon:<Table size={20}/>, link:'/category'},
+    {name:'Cart', icon:<ShoppingBag size={20}/>, link:'/cart'},
   ]
 
   // setInterval(() => {
