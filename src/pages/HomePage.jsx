@@ -1,8 +1,10 @@
 import { Search } from 'lucide-react'
-import React from 'react'
+import React, { useContext } from 'react'
 import Table from '../components/Table'
+import { all_provider } from '../components/ContextProvider'
 
 const HomePage = () => {
+  const {setsearch} = useContext(all_provider)
   return (
     <>
       <div className="w-full h-screen relative">
@@ -11,6 +13,7 @@ const HomePage = () => {
           <div className="relative w-2/3 max-md:w-full">
             <input type="text"
             placeholder='Type in a name...'
+            onChange={(e) => setsearch(e.target.value)}
             className='text-xs rounded-md border w-full py-3 border-gray-200 bg-gray-100 focus:ring-1 focus:ring-blue-200' />
             <Search 
             className='absolute right-4 h-full top-0 '
@@ -44,6 +47,7 @@ const HomePage = () => {
         </div>
           
           <Table/>
+
       </div>
     </>
   )

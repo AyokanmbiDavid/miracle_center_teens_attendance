@@ -1,16 +1,23 @@
-import { Home, Key, Menu } from 'lucide-react'
+import { Home, Key, Menu, User } from 'lucide-react'
 import React, { useState } from 'react'
 import {motion} from "framer-motion"
+import { Link, useLocation } from 'react-router-dom'
 
 const Navbar = () => {
   const [sidebar,setsidebar]=useState(false)
+  const menus = [
+    {name:"Dashboard", icon:<Home className='text-blue-800' size={16}/>,link:'/'},
+    {name:"Complain", icon:<User className='text-blue-800' size={16}/>, link:'/complain'},
+  ]
+  const location = useLocation().pathname
   return (
     <>
       <div className="w-full fixed top-0 left-0 z-50 p-3 bg-white border border-gray-200 flex justify-between items-center">
           {/* menu */}
-          <div className="p-2 rounded-xl hover:bg-gray-100 cursor-pointer duration-200 ">
+          <div 
+           onClick={() => setsidebar(!sidebar)}
+          className="p-2 rounded-xl hover:bg-gray-100 cursor-pointer duration-200 ">
             <Menu size={16} 
-            onClick={() => setsidebar(!sidebar)}
             className='text-gray-700/70'/>
           </div>
 
@@ -27,7 +34,7 @@ const Navbar = () => {
 
       {/* sidebar */}
       {sidebar && 
-      <div className="fixed w-full h-screen z-40 top-4 bg-gray-200/30 left-0">
+      <div className="fixed w-full h-screen z-40 top-4 bg-gray-200/60 left-0">
           <motion.div 
           initial={{x:-100}}
           animate={{x:0}}
@@ -36,10 +43,15 @@ const Navbar = () => {
 
             {/* menus */}
             <div className="h-screen w-full flex flex-col mt-2">
-              <div className="w-full flex justify-start p-2 py-3 rounded-md bg-blue-200 items-center gap-3">
-                <Home className='text-blue-800' size={16}/>
-                <span className='text-blue-600 text-xs font-semibold'>Dashboard</span>
-              </div>
+             {menus.map((item,i) => (
+              <>
+                 <Link to={item.link}
+                  className={`w-full flex justify-start p-2 py-3 rounded-md ${location == item.link && 'bg-blue-200' } items-center gap-3`}>
+                {item.icon}
+                <span className={`${location == item.link && 'text-blue-600'} text-xs font-semibold`}>{item.name}</span>
+              </Link>
+              </>
+             ))}
             </div>
           </motion.div>
       </div>}
