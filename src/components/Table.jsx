@@ -25,10 +25,10 @@ const Table = () => {
               <td className='text-xs p-2 pl-4'>{item.title}</td>
               <td className='text-xs p-2 pl-4'
               onClick={() => markattendance(item.id,"yes")}>
-                {item.yes == true ? "yes" :'-' }</td>
+                <input type="radio" name={item.title} checked={item.yes == true} /></td>
               <td className='text-xs p-2 pl-4'
               onClick={() => markattendance(item.id,"no")}>
-                {item.yes == true ? "-" :'yes' }</td>
+               <input type="radio" name={item.title} checked={item.yes == false}/></td>
             </tr>
               </>
             )) }</>
@@ -38,12 +38,12 @@ const Table = () => {
                  <tr>
               <td className='text-xs p-2 pl-4'>{item.id}</td>
               <td className='text-xs p-2 pl-4'>{item.title}</td>
-              <td className='text-xs p-2 pl-4'
+             <td className='text-xs p-2 pl-4'
               onClick={() => markattendance(item.id,"yes")}>
-                {item.yes == true ? "yes" :'-' }</td>
+                <input type="radio" name={item.title}/></td>
               <td className='text-xs p-2 pl-4'
               onClick={() => markattendance(item.id,"no")}>
-                {item.yes == true ? "-" :'yes' }</td>
+               <input type="radio" name={item.title} /></td>
             </tr>
             </>
           ))}
