@@ -21,10 +21,9 @@ const HomePage = () => {
           </div>
 
           {/* selects */}
-          <div className="flex justify-around items-center max-md:mt-2">
+          <div className="flex justify-around items-center max-md:mt-2 gap-3">
             {/* for year */}
           <div className="flex justify-center gap-2 items-center">
-            <span className="text-sm">Year</span>
           <select name="" 
           className='border border-gray-200 rounded-md text-xs py-3 focus:ring-0'>
             <option value="">2026</option>
@@ -35,12 +34,21 @@ const HomePage = () => {
 
           {/* for month */}
           <div className="flex justify-center gap-2 items-center">
-            <span className="text-sm">Month</span>
           <select name="" 
           className='border border-gray-200 rounded-md text-xs py-3 focus:ring-0'>
             <option value="">March</option>
             <option value="">February</option>
             <option value="">January</option>
+          </select>
+          </div>
+
+          {/* week */}
+          <div className="flex justify-center gap-2 items-center">
+          <select name="" 
+          className='border border-gray-200 rounded-md text-xs py-3 focus:ring-0'>
+            <option value="">Week 1</option>
+            <option value="">Week 2</option>
+            <option value="">Week 3</option>
           </select>
           </div>
           </div>

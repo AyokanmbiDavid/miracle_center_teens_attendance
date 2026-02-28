@@ -8,6 +8,7 @@ const Navbar = () => {
   const menus = [
     {name:"Dashboard", icon:<Home className='text-blue-800' size={16}/>,link:'/'},
     {name:"Complain", icon:<User className='text-blue-800' size={16}/>, link:'/complain'},
+    {name:"Admin", icon:<Key className='text-blue-800' size={16}/>, link:'/admin'},
   ]
   const location = useLocation().pathname
   return (
@@ -26,10 +27,10 @@ const Navbar = () => {
           </h1>
 
           {/* Admin login */}
-          <div className="bg-blue-500 p-2 px-3 text-xs text-white rounded-xl flex justify-between items-center gap-3 cursor-pointer hover:bg-blue-600 duration-200">
-            <span className='max-md:hidden'>Admin Login</span>
+          <Link to={'./admin'} className="bg-blue-500 p-2 px-3 text-xs text-white rounded-xl flex justify-between items-center gap-3 cursor-pointer hover:bg-blue-600 duration-200">
+            <span  className='max-md:hidden'>Admin Login</span>
             <Key size={16} className='rotate-[40deg]'/>
-          </div>
+          </Link>
       </div>
 
       {/* sidebar */}
