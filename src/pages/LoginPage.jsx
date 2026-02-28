@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import API from "../api/axios";
 import { LoadingSmall } from "../components/Exporting";
-import { CloudUpload, DoorOpen, EyeClosed, EyeIcon, Info, LockIcon, ShoppingCart } from "lucide-react";
+import { CloudUpload, DoorOpen, EyeClosed, EyeIcon, Info, Key, LockIcon, ShoppingCart, User } from "lucide-react";
 import { ShopContext } from "../components/ContextProvider";
 
 const LoginPage = () => {
@@ -101,39 +101,52 @@ async function submitPass (e) {
     <div className=" w-full h-screen relative flex justify-center items-center">
 
        {/* main frame */}
-       <div className="w-full lg:w-3/10 px-4">
+       <div className="w-full lg:w-3/10 max-md:mx-4 px-4 border border-slate-200 shadow-md bg-blue-100 p-1 py-4 duration-200">
         {/* navbar */}
+
         <div className="w-full mb-3 flex gap-2 justify-between items-center">
           {/* sign In */}
           <Link to={'/login'}
-          className="w-full bg-green-200/70 p-3 text-center text-green-700/70 text-xs rounded-l-3xl rounded-md hover:bg-green-300/50 duration-300 flex items-center gap-3 justify-center">
-          Sign In <DoorOpen/>
+          className="group w-full bg-green-500 text-white flex items-center gap-3 text-xs h-[50px] justify-center">
+            <span className="scale-0 w-0 group-hover:scale-100 origin-right group-hover:w-[50px] duration-300 transition-all">
+              Sign In
+            </span>
+
+            <DoorOpen size={20} />
           </Link>
 
           {/* signup */}
           <Link to={'/signup'}
-          className="w-full p-3 text-center text-green-700/70 text-xs rounded-r-3xl rounded-md hover:bg-green-300/50 duration-300 flex items-center justify-center gap-3">
-          Sign Up <CloudUpload/>
+          className="group w-full hover:bg-green-200 text-green-700 flex items-center justify-center gap-3 h-[50px] text-xs">
+            <span className="scale-0 w-0 group-hover:scale-100 origin-right group-hover:w-[50px] duration-300 transition-all">
+              Sign Up
+            </span>
+
+            <CloudUpload size={20} />
           </Link>
         </div>
 
-          <h1 className="font-semiibold flex items-center gap-2 text-blue-600/70 mb-3 pb-2 border-b-2 border-slate-300">Login to ShoppingCart <ShoppingCart/></h1>
+          <h1 className="font-semiibold flex items-center gap-2 text-blue-700 mb-3 pb-2 border-b-2 border-slate-300">Login to ShoppingCart <ShoppingCart/></h1>
 
           <form onSubmit={handleSubmit}
           className="flex flex-col">
             <label htmlFor="" className="text-sm mt-3 text-gray-800">Email</label>
             {/* email */}
-            <input type="email"
-            className="bg-slate-100 border-0 py-4 rounded-xl text-xs focus:ring-2 focus:ring-blue-200 mt-2" 
+          <div className="relative w-full">
+          <User size={17} className="absolute left-3 h-full" />
+              <input type="email"
+            className="bg-slate-100 w-full pl-10 border-0 py-4 text-xs focus:ring-2 focus:ring-blue-200 mt-2" 
             placeholder="david@gmail.com"
             onChange={(e) => setFormData({...formData, email: e.target.value})}
             required/>
+          </div>
 
             <label htmlFor="" className="text-sm mt-3 text-gray-800">Password</label>
             {/* password */}
             <div className="w-full relative">
+              <Key className="absolute h-full left-3" size={17}/>
             <input type={passtype}
-            className="w-full h-full bg-slate-100 border-0 py-4 rounded-xl text-xs focus:ring-2 focus:ring-blue-200 mt-2" 
+            className="w-full pl-10 h-full bg-slate-100 border-0 py-4 text-xs focus:ring-2 focus:ring-blue-200 mt-2" 
             placeholder="Password..."
             onChange={(e) => setFormData({...formData, password: e.target.value})}
             required/>
@@ -153,13 +166,13 @@ async function submitPass (e) {
             </div>
 
             {/* button for submit */}
-            <button 
-            className="mt-4 w-full rounded-xl text-white flex items-center gap-1 justify-between cursor-pointer duration-300">
-                <span className="w-full bg-green-500 text-xs rounded-l-2xl flex justify-center items-center rounded-md p-3 font-semibold hover:shadow-md duration-300">
+             <button 
+            className="mt-4 mb-5 w-fulltext-white flex gap-1 items-center justify-between  cursor-pointer group  duration-300">
+                <span className="w-full text-xs text-white bg-green-500 p-3 flex justify-center items-center font-semibold hover:shadow-md duration-300">
                   {loading ? <LoadingSmall/> : 'Sign In'}
                 </span>
-                <span className="p-3 bg-green-700/80 rounded-r-2xl rounded-md hover:shadow-md duration-300">
-                  <DoorOpen size={16}/>
+                <span className="p-3 scale-0 origin-right hidden group-hover:scale-100 text-white group-hover:block  bg-green-700 hover:shadow-md transition-all duration-300">
+                  <CloudUpload size={16}/>
                 </span>
             </button>
           </form>

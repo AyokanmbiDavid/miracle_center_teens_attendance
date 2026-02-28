@@ -1,95 +1,48 @@
-import { Home, Menu, MenuIcon, Search, ShoppingBag, ShoppingCart, Table, User } from 'lucide-react'
-import React, { useContext } from 'react'
-import { ShopContext } from './ContextProvider'
-import { useLocation } from 'react-router-dom'
-import { Link } from 'react-router-dom'
+import { Home, Key, Menu } from 'lucide-react'
+import React, { useState } from 'react'
+import {motion} from "framer-motion"
 
 const Navbar = () => {
-  const location = useLocation()
-  const {filtertype,setfiltertype,filtsimilar} = useContext(ShopContext)
-  const navs= [
-    {name:'Home', icon:<Home size={20}/>, link:'/'},
-    {name:'Category', icon:<Table size={20}/>, link:'/category'},
-    {name:'Cart', icon:<ShoppingBag size={20}/>, link:'/cart'},
-  ]
-
-  // setInterval(() => {
-  //   console.log(filtertype.searched);
-    
-  // }, 2000)
+  const [sidebar,setsidebar]=useState(false)
   return (
     <>
-      <div className="w-full p-2 fixed z-30 top-0 left-0 border-b-2 border-gray-300/70 flex justify-between px-3 bg-slate-100">
-        {/* name */}
-        <h1 className="text-lg font-semibold text-blue-700/70 flex justify-center items-center">
-        <Link to={'/'} className="max-md:hidden"> ShoppingCart </Link>
-          <ShoppingCart />
-        </h1>
+      <div className="w-full fixed top-0 left-0 z-50 p-3 bg-white border border-gray-200 flex justify-between items-center">
+          {/* menu */}
+          <div className="p-2 rounded-xl hover:bg-gray-100 cursor-pointer duration-200 ">
+            <Menu size={16} 
+            onClick={() => setsidebar(!sidebar)}
+            className='text-gray-700/70'/>
+          </div>
 
-        {/* input */}
-        <Link to={'/search'} className="relative max-md:hidden">
-          <input type="text"
-          className="p-2 text-xs border-0 rounded-full bg-white w-[300px] focus:ring-1 ring-blue-200"
-          placeholder='Search here..' 
-          autoComplete='name'
-          onChange={(e) => filtsimilar(e.target.value)}/>
+          <h1 className="font-semibold text-lg">
+            Teens Attendance
+          </h1>
 
-          <button className="absolute h-full right-0 px-3 cursor-pointer">
-            <Search size={15}/>
-          </button>
-        </Link>
-
-
-        {/* navigation */}
-        <div className="flex items-cente gap-2">
-           {/* input for mobile */}
-        <Link to={'/search'} className='md:hidden text-slate-800 flex h-full items-center'>
-          <Search size={17}/>
-        </Link>
-
-          {navs.map((nav, i) => (
-            <>
-              <Link to={nav.link} key={i}
-              className={`${location.pathname == nav.link ? 'text-blue-600' : 'text-slate-800/80'} ${nav.name != "Cart" && 'max-md:hidden'} p-2 px-3 rounded-full hover:bg-blue-200/80 duration-300 cursor-pointer relative`}>
-                {nav.icon}
-
-                {nav.name == 'Cart' && 
-                <> 
-                <span className="absolute p-1 top-1 right-2 bg-blue-400 rounded-full ring-2 ring-white"></span>
-                </>}
-              </Link>
-
-              
-            </>
-          ))}
-
-          {/* user account */}
-          <Link to={'/profile'}
-          className='h-7 w-7 flex justify-center items-center rounded-full bg-slate-600 text-white relative max-md:hidden'>
-            <User size={17}/>
-            <span className="absolute right-0 bottom-0 p-1 bg-red-600 rounded-full ring-2 ring-white"></span>
-          </Link>
-        </div>
+          {/* Admin login */}
+          <div className="bg-blue-500 p-2 px-3 text-xs text-white rounded-xl flex justify-between items-center gap-3 cursor-pointer hover:bg-blue-600 duration-200">
+            <span className='max-md:hidden'>Admin Login</span>
+            <Key size={16} className='rotate-[40deg]'/>
+          </div>
       </div>
 
-      {/* for mobile */}
-      <div className="md:hidden fixed bottom-0 w-full left-0 z-50 p-2 bg-slate-100 flex justify-around items-center border-t-2 border-slate-200">
-        {navs.map((navlink, i) => navlink.name != "Cart" && (
-          <>
-            <Link to={navlink.link}
-             className={`${location.pathname == navlink.link ? 'text-blue-600' : ''}`} key={i}>
-                {navlink.icon}
-            </Link>
-          </>
-        ))}
+      {/* sidebar */}
+      {sidebar && 
+      <div className="fixed w-full h-screen z-40 top-4 bg-gray-200/30 left-0">
+          <motion.div 
+          initial={{x:-100}}
+          animate={{x:0}}
+          className="p-2 pl-4 border-r border-gray-200 bg-white h-screen w-[250px] mt-10">
+            <span className="text-sm font-semibold text-gray-500">MENU</span>
 
-        {/* user account */}
-          <Link to={'/profile'}
-          className='h-7 w-7 flex justify-center items-center rounded-full bg-slate-600 text-white relative'>
-            <User size={17}/>
-            <span className="absolute right-0 bottom-0 p-1 bg-red-600 rounded-full ring-2 ring-white"></span>
-          </Link>
-      </div>
+            {/* menus */}
+            <div className="h-screen w-full flex flex-col mt-2">
+              <div className="w-full flex justify-start p-2 py-3 rounded-md bg-blue-200 items-center gap-3">
+                <Home className='text-blue-800' size={16}/>
+                <span className='text-blue-600 text-xs font-semibold'>Dashboard</span>
+              </div>
+            </div>
+          </motion.div>
+      </div>}
     </>
   )
 }
