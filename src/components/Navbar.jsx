@@ -1,4 +1,4 @@
-import { Home, Key, Menu, User } from 'lucide-react'
+import { FastForward, Home, Key, Menu, User } from 'lucide-react'
 import React, { useState } from 'react'
 import {motion} from "framer-motion"
 import { Link, useLocation } from 'react-router-dom'
@@ -47,6 +47,7 @@ const Navbar = () => {
              {menus.map((item,i) => (
               <>
                  <Link to={item.link}
+                 onClick={() => setsidebar(false)}
                   className={`w-full flex justify-start p-2 py-3 rounded-md ${location == item.link && 'bg-blue-200' } items-center gap-3`}>
                 {item.icon}
                 <span className={`${location == item.link && 'text-blue-600'} text-xs font-semibold`}>{item.name}</span>

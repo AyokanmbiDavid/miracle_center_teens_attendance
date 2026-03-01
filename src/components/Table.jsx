@@ -2,8 +2,8 @@ import React, { useContext } from 'react'
 import { all_provider } from './ContextProvider'
 
 const Table = () => {
-  const {attendance,markattendance,searchresult,search} = useContext(all_provider)
-
+  const {currentroll,markattendance,searchresult,search} = useContext(all_provider)
+  
   return (
     <>
       <div className="w-full">
@@ -18,20 +18,29 @@ const Table = () => {
           <tbody>
            {!search ?
            <>
-            {attendance.map((item, i)=> (
-              <>
-                  <tr>
-              <td className='text-xs p-2 pl-4'>{item.id}</td>
-              <td className='text-xs p-2 pl-4'>{item.title}</td>
-              <td className='text-xs p-2 pl-4'
-              onClick={() => markattendance(item.id,"yes")}>
-                <input type="radio" name={item.title} checked={item.yes == true} /></td>
-              <td className='text-xs p-2 pl-4'
-              onClick={() => markattendance(item.id,"no")}>
-               <input type="radio" name={item.title} checked={item.yes == false}/></td>
-            </tr>
-              </>
-            )) }</>
+              {currentroll.length != 0 &&
+                <>
+                  {currentroll.roll.map((item, i)=> (
+                    <>
+                        <tr>
+                          <td className='text-xs p-2 pl-4'>{item.id}</td>
+                          <td className='text-xs p-2 pl-4'>{item.title}</td>
+                          <td className='text-xs p-2 pl-4'>
+                            <input type="radio"
+                            name={item.title} 
+                            defaultChecked={item.present == true}
+                            onClick={() => markattendance(item.id)} /></td>
+                          <td className='text-xs p-2 pl-4'>
+                          <input type="radio" 
+                          name={item.title} 
+                          defaultChecked={item.present == false}
+                          onClick={() => markattendance(item.id)}/></td>
+                        </tr>
+                    </>
+                  )) }
+                </> 
+            }
+           </>
             :
             <> {searchresult.map((item,i) => (
             <>
@@ -40,10 +49,10 @@ const Table = () => {
               <td className='text-xs p-2 pl-4'>{item.title}</td>
              <td className='text-xs p-2 pl-4'
               onClick={() => markattendance(item.id,"yes")}>
-                <input type="radio" name={item.title}/></td>
+                <input type="radio" name={item.title} /></td>
               <td className='text-xs p-2 pl-4'
               onClick={() => markattendance(item.id,"no")}>
-               <input type="radio" name={item.title} /></td>
+               <input type="radio" name={item.title}/></td>
             </tr>
             </>
           ))}
@@ -52,6 +61,15 @@ const Table = () => {
           </tbody>
         </table>
         
+            {/* attendance error */}
+            {currentroll.length == 0 && 
+                <> 
+                  <div className="w-full py-4 text-center text-orange-700">
+                      The attendance that existed on this date was not taking
+                  </div>
+                </>}
+
+            {/* serach value error */}
            {searchresult.length == 0 && search &&
             <>
               <div className="w-full py-4 text-sm text-center text-red-700 font-semibold">

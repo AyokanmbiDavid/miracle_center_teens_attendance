@@ -4,7 +4,7 @@ import Table from '../components/Table'
 import { all_provider } from '../components/ContextProvider'
 
 const HomePage = () => {
-  const {setsearch} = useContext(all_provider)
+  const {setsearch,setyear,setmonth,setweek} = useContext(all_provider)
   return (
     <>
       <div className="w-full h-screen relative">
@@ -25,30 +25,39 @@ const HomePage = () => {
             {/* for year */}
           <div className="flex justify-center gap-2 items-center">
           <select name="" 
+          onChange={(e) => setyear(e.target.value)}
           className='border border-gray-200 rounded-md text-xs py-3 focus:ring-0'>
-            <option value="">2026</option>
-            <option value="">2025</option>
-            <option value="">2024</option>
+            {['2026','2025','2024'].map((item, i) => (
+              <div className="">
+                <option value={item}>{item}</option>
+              </div>
+            ))}
           </select>
           </div>
 
           {/* for month */}
           <div className="flex justify-center gap-2 items-center">
-          <select name="" 
+          <select name=""  
+          onChange={(e) => setmonth(e.target.value)}
           className='border border-gray-200 rounded-md text-xs py-3 focus:ring-0'>
-            <option value="">March</option>
-            <option value="">February</option>
-            <option value="">January</option>
+            {['january','february','march','april','may','june','july','august','september','october','november','december'].map((item, i) => (
+              <div className="">
+                <option value={item}>{item}</option>
+              </div>
+            ))}
           </select>
           </div>
 
           {/* week */}
           <div className="flex justify-center gap-2 items-center">
-          <select name="" 
+          <select name=""  
+          onChange={(e) => setweek(e.target.value)}
           className='border border-gray-200 rounded-md text-xs py-3 focus:ring-0'>
-            <option value="">Week 1</option>
-            <option value="">Week 2</option>
-            <option value="">Week 3</option>
+            {['week 1','week 2','week 3','week 4'].map((item, i) => (
+              <div className="">
+                <option value={item}>{item}</option>
+              </div>
+            ))}
           </select>
           </div>
           </div>
