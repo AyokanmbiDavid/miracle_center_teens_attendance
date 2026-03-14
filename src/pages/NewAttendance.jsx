@@ -1,93 +1,87 @@
-import React, { useContext, useState } from 'react'
-import AdminPass from '../components/AdminPass'
-import NavAdmin from '../components/NavAdmin'
-import { Calendar } from 'lucide-react'
-import { all_provider } from '../components/ContextProvider'
+import React, { useContext, useState } from 'react';
+import { Calendar } from 'lucide-react';
+import { all_provider } from '../components/ContextProvider';
+// import AdminPass from '../components/AdminPass';
+// import NavAdmin from '../components/NavAdmin';
 
 const NewAttendance = () => {
-  const {createattendance} = useContext(all_provider)
-  const [newdetail,setnewdetail] = useState({
-    year:2026,
-    month:"March",
-    week: 2,
-  })
+  const { createattendance, Notify } = useContext(all_provider);
+
+  const [newdetail, setnewdetail] = useState({
+    year: "2026",
+    month: "March",
+    week: "week 1",
+  });
+
+  const handleCreate = () => {
+    createattendance(newdetail.year, newdetail.month, newdetail.week);
+  };
+
   return (
-    <>
-      <div className="w-full h-screen relative ">
-        <AdminPass />
-        <NavAdmin/>
-        
-        <div className="w-full">
-          <h1 className="text-xl my-3 font-semibold text-gray-800">New Attendance</h1>
+    <div className="w-full min-h-screen p-6">
+      <div className="max-w-2xl mx-auto">
+        <h1 className="text-2xl font-bold text-gray-800 mb-8">Create New Attendance</h1>
 
-          {/* deutail info */}
-          <div className="w-full grid grid-cols-3 max-md:grid-cols-1 gap-3">
-            {/* for year */}
-            <div className="p-3 border border-gray-200 rounded-xl">
-              <h1 className="text-sm text-green-700 font-semibold">
-                Year
-              </h1>
-              <div className="text-2xl flex w-full justify-between gap-3">
-                <span className="">{newdetail.year}</span>
-
-                <select
-                onChange={(e => (setnewdetail({...newdetail, year: e.target.value})))}
-                className='text-sm rounded-xl border border-gray-500'>
-                  {["2026","2025","2024"].map((item, i) => (
-                    <option value={item} >{item}</option>
-                  ))}
-                </select>
-              </div>
+        <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            {/* Year */}
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-2">Year</label>
+              <select
+                value={newdetail.year}
+                onChange={(e) => setnewdetail({ ...newdetail, year: e.target.value })}
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-200"
+              >
+                {["2026", "2025", "2024"].map((item) => (
+                  <option key={item} value={item}>{item}</option>
+                ))}
+              </select>
             </div>
 
-            {/* for month */}
-            <div className="p-3 border border-gray-200 rounded-xl">
-              <h1 className="text-sm text-blue-700 font-semibold">
-                Month
-              </h1>
-              <div className="text-2xl  flex w-full justify-between gap-3">
-                <span className="">{newdetail.month}</span>
-
-                <select name=""
-                onChange={(e => (setnewdetail({...newdetail, month: e.target.value})))}
-                className='text-sm rounded-xl border border-gray-500'>
-                  {["April","May","June","July"].map((item, i) => (
-                    <option value={item} >{item}</option>
+            {/* Month */}
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-2">Month</label>
+              <select
+                value={newdetail.month}
+                onChange={(e) => setnewdetail({ ...newdetail, month: e.target.value })}
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-200"
+              >
+                {['January','February','March','April','May','June','July','August','September','October','November','December']
+                  .map((item) => (
+                    <option key={item} value={item.toLowerCase()}>{item}</option>
                   ))}
-                </select>
-              </div>
+              </select>
             </div>
 
-            {/* for week */}
-            <div className="p-3 border border-gray-200 rounded-xl">
-              <h1 className="text-sm text-yellow-500 font-semibold">
-                Week
-              </h1>
-              <div className="text-2xl flex w-full justify-between gap-3">
-                <span className="">{newdetail.week}</span>
-
-                <select name=""
-                onChange={(e => (setnewdetail({...newdetail, week: e.target.value})))}
-                className='text-sm rounded-xl border border-gray-500'>
-                  {[1,2,3,4].map((item, i) => (
-                    <option value={item} >{item}</option>
-                  ))}
-                </select>
-              </div>
+            {/* Week */}
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-2">Week</label>
+              <select
+                value={newdetail.week}
+                onChange={(e) => setnewdetail({ ...newdetail, week: e.target.value })}
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-200"
+              >
+                {['week 1', 'week 2', 'week 3', 'week 4'].map((item) => (
+                  <option key={item} value={item}>{item}</option>
+                ))}
+              </select>
             </div>
           </div>
 
-          {/* submit */}
-          <div className="w-full flex justify-center items-center mt-4">
-              <button 
-              onClick={() => createattendance(newdetail.year,newdetail.month,newdetail.week)}
-              className="flex justify-center items-center gap-3 p-3 px-6 rounded-xl shadow-md hover:shadow-sm bg-gradient-to-bl from-blue-400 to-green-700 text-white cursor-pointer duration-200">
-                Create <Calendar size={17}/></button>
+          <div className="mt-10 flex justify-center">
+            <button
+              onClick={handleCreate}
+              className="flex items-center gap-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-10 py-4 rounded-2xl text-base font-medium shadow-md transition-all active:scale-95"
+            >
+              Create Attendance
+              <Calendar size={22} />
+            </button>
           </div>
         </div>
       </div>
-    </>
-  )
-}
+    </div>
+  );
+};
 
-export default NewAttendance
+export default NewAttendance;
