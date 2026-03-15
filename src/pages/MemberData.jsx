@@ -4,7 +4,7 @@ import NavAdmin from '../components/NavAdmin';
 import DataTable from '../components/DataTable';
 import { Download, Search, X } from 'lucide-react';
 import { all_provider } from '../components/ContextProvider';
-import jsPDF from 'jsPDF';
+import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { motion } from "framer-motion";
 
