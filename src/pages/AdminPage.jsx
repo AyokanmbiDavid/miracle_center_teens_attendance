@@ -33,15 +33,15 @@ const AdminPage = () => {
   };
 
   return (
-    <div className="w-full min-h-screen relative p-6">
+    <div className="w-full min-h-screen relative flex flex-col items-center p-6">
       <NavAdmin/>
       <AdminPass/>
       {/* Header */}
-      <h1 className="text-2xl font-bold text-gray-800 mb-8">Admin Dashboard</h1>
+      <h1 className="text-2xl font-bold text-gray-800 text-center mb-8 mt-3">Admin Dashboard</h1>
 
       {/* Add New Member Section */}
-      <div className="max-w-2xl bg-white border border-gray-200 rounded-2xl p-8 shadow-sm">
-        <h2 className="text-xl font-semibold mb-6">Add a New Member</h2>
+      <div className="max-w-2xl w-full bg-white border flex flex-col items-center border-gray-200 rounded-2xl p-8 shadow-sm">
+        <h2 className="text-xl font-semibold mb-6 text-center">Add a New Member</h2>
 
         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
@@ -76,7 +76,7 @@ const AdminPage = () => {
             />
           </div>
 
-          <div className="md:col-span-3 flex justify-end mt-4">
+          <div className="md:col-span-3 flex justify-center mt-4">
             <button
               type="submit"
               className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-xl text-sm font-medium transition-all"

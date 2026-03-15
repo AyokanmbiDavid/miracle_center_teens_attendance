@@ -1,44 +1,50 @@
 import React, { useContext } from 'react';
-import { X } from 'lucide-react';
-import { motion } from "framer-motion";
 import { all_provider } from './ContextProvider';
+import { CheckCircle, XCircle, Loader2, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-const Notify = () => {
+const Notification = () => {
   const { notifystatus, closenotify } = useContext(all_provider);
 
-  if (!notifystatus.show) return null;
-
-  const isSuccess = notifystatus.type === "success";
-  const isLoading = notifystatus.type === "loading";
-  const isError = notifystatus.type === "failure" || notifystatus.type === "error";
-
-  let bgColor = "bg-blue-500";
-
-  if (isSuccess) bgColor = "bg-green-600";
-  if (isError) bgColor = "bg-red-600";
-  if (isLoading) bgColor = "bg-yellow-600";
+  const styles = {
+    success: "bg-green-600 border-green-700",
+    failure: "bg-red-600 border-red-700",
+    loading: "bg-blue-600 border-blue-700",
+  };
 
   return (
-    <motion.div
-      initial={{ x: 400, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      exit={{ x: 400, opacity: 0 }}
-      className="fixed top-4 right-4 z-50"
-    >
-      <div className={`${bgColor} shadow-lg rounded-2xl text-white px-5 py-4 min-w-[280px] flex items-center justify-between`}>
-        <div className="flex items-center gap-3">
-          <span className="text-base font-medium">{notifystatus.message}</span>
-        </div>
-
-        <button
-          onClick={closenotify}
-          className="ml-4 hover:bg-white/20 p-1 rounded-full transition-colors"
+    <AnimatePresence>
+      {notifystatus.show && (
+        <motion.div 
+          // 1. Initial state (hidden below the screen)
+          initial={{ y: 100, x: "-50%", opacity: 0 }}
+          // 2. Animate to this state (visible)
+          animate={{ y: 0, x: "-50%", opacity: 1 }}
+          // 3. Exit state (slide back down when hidden)
+          exit={{ y: 100, x: "-50%", opacity: 0 }}
+          // Smooth spring physics
+          transition={{ type: "spring", stiffness: 400, damping: 30 }}
+          className="fixed bottom-10 left-1/2 z-[9999]"
         >
-          <X size={20} />
-        </button>
-      </div>
-    </motion.div>
+          <div className={`flex items-center gap-3 px-6 py-3 rounded-2xl text-white shadow-2xl border ${styles[notifystatus.type] || styles.loading}`}>
+            
+            {notifystatus.type === "loading" && <Loader2 className="animate-spin" size={20} />}
+            {notifystatus.type === "success" && <CheckCircle size={20} />}
+            {notifystatus.type === "failure" && <XCircle size={20} />}
+
+            <span className="text-sm font-bold tracking-wide">{notifystatus.message}</span>
+
+            <button 
+              onClick={closenotify} 
+              className="ml-2 hover:bg-white/20 rounded-full p-1 transition-colors"
+            >
+              <X size={16} />
+            </button>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
-export default Notify;
+export default Notification;

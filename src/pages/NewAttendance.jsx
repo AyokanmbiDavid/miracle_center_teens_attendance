@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Calendar } from 'lucide-react';
 import { all_provider } from '../components/ContextProvider';
+import NavAdmin from '../components/NavAdmin';
 // import AdminPass from '../components/AdminPass';
 // import NavAdmin from '../components/NavAdmin';
 
@@ -19,6 +20,7 @@ const NewAttendance = () => {
 
   return (
     <div className="w-full min-h-screen p-6">
+      <NavAdmin />
       <div className="max-w-2xl mx-auto">
         <h1 className="text-2xl font-bold text-gray-800 mb-8">Create New Attendance</h1>
 

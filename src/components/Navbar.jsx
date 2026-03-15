@@ -26,16 +26,25 @@ const Navbar = () => {
             Teens Attendance
           </h1>
 
-          {/* Admin login */}
-          <Link to={'./admin'} className="bg-blue-500 p-2 px-3 text-xs text-white rounded-xl flex justify-between items-center gap-3 cursor-pointer hover:bg-blue-600 duration-200">
+          <div className="flex gap-3 items-center">
+            {/* home button */}
+            <Link to={'/'}
+            className='p-2.5 px-3 border border-green-300 rounded-xl'>
+              <Home className='text-green-700' size={15} />
+            </Link>
+            {/* Admin login */}
+          <Link to={'./admin'} className="bg-blue-200 text-blue-800 font-bold p-2 px-3 text-sm rounded-xl flex justify-between items-center gap-3 cursor-pointer  duration-200">
             <span  className='max-md:hidden'>Admin Login</span>
             <Key size={16} className='rotate-[40deg]'/>
           </Link>
+          </div>
       </div>
 
       {/* sidebar */}
       {sidebar && 
-      <div className="fixed w-full h-screen z-40 top-4 bg-gray-200/60 left-0">
+      <div 
+      onClick={() => setsidebar(false)}
+      className="fixed w-full h-screen z-40 top-4 bg-gray-200/60 left-0">
           <motion.div 
           initial={{x:-100}}
           animate={{x:0}}
